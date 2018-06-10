@@ -13,7 +13,6 @@ var MIX_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 12;
-var MIN_LENGTH_ARRAY = 1;
 var QUANTITY_OFFER = 8;
 var WIDTH_PIN = 62;
 var HEIGHT_PIN = 84;
@@ -21,21 +20,23 @@ var MIN_ROOM = 1;
 var MAX_ROOM = 5;
 // Функция случайное рандомное число без учета максимального.
 var getRandomNumberWithoutMaximum = function (min, max) {
-  return Math.floor(min + Math.random() * (max - min));
+  return Math.floor(Math.random() * (max - min)) + min;
 };
 // Функция случайное рандомное число с учеета максимального.
 var getRandomNumberWithMaximum = function (min, max) {
-  return Math.floor(min + Math.random() * ((max + 1) - min));
+  return Math.floor(Math.random() * ((max + 1) - min)) + min;
 };
+
 // Функция случайный элемент массива.
 var getRandomItemFromArray = function (array) {
   return array[getRandomNumberWithoutMaximum(0, array.length)];
 };
 // Функция случаная длина массива.
-var getrandomLengthArray = function (array, minLengthArray) {
-  array.length = getRandomNumberWithMaximum(minLengthArray, array.length);
-  return array;
+var getrandomLengthArray = function (array) {
+  return array.slice(getRandomNumberWithoutMaximum(0, array.length));
+  // getRandomNumberWithMaximum(1, array.length
 };
+
 // Функция перемешивает массив случайным образом.
 var randomMixArray = function (array) {
   return array.sort(function () {
@@ -56,7 +57,7 @@ var getRandomOffer = function (linkAvatar) {
       guests: getRandomNumberWithMaximum(MIN_GUESTS, MAX_GUESTS),
       checkin: getRandomItemFromArray(TIMES_CHECKINS_AND_CHECKOUTS),
       checkout: getRandomItemFromArray(TIMES_CHECKINS_AND_CHECKOUTS),
-      features: getrandomLengthArray(FEATURES, MIN_LENGTH_ARRAY),
+      features: getrandomLengthArray(FEATURES),
       description: '',
       photos: randomMixArray(PHOTOS)
     },
@@ -81,8 +82,7 @@ var getRandomsOffers = function (quantity) {
   }
   return randomsOffers;
 };
-
-// Функция возвращает элемента пин.
+// Функция возвращает элемент пин.
 var getMapPinElement = function (obj) {
   var pinElement = similarMapPinTemplate.cloneNode(true);
   pinElement.style = 'left: ' + (obj.location.x - WIDTH_PIN / 2) + 'px; top: ' + (obj.location.y - HEIGHT_PIN) + 'px';
@@ -98,8 +98,7 @@ var getMapPinsElements = function (array) {
   }
   return pinsElements;
 };
-
-
+// Функция возвращает перевод типа жилья.
 var translateType = function (typeEn) {
   if (typeEn === 'flat') {
     return 'Квартира';
@@ -111,44 +110,75 @@ var translateType = function (typeEn) {
     return 'Дворец';
   }
 };
-
-// var getDescriptionsElements = function (array) {
-//   var descriptionsElements = document.createDocumentFragment();
-//   for (var i = 0; i < array.length; i++) {
-//     var bb;
-//     bb = bb.createElement('li');
-//     descriptionsElements.appendChild(bb);
-//   }
-//   return descriptionsElements;
-// };
+// Возвращает элемент списка удобств.
+var getFeatureElement = function (feature) {
+  var featureElement = listFeature.cloneNode();
+  featureElement.classList.remove('popup__feature--wifi');
+  featureElement.classList.add('popup__feature--' + feature);
+  return featureElement;
+};
+// Возвращает элемент списка фото.
+var getPhotoElement = function (link) {
+  var photoElement = photoFeature.cloneNode();
+  photoElement.src = link;
+  return photoElement;
+};
+// Возвращает фрагмент списка удобств.
+var getFeaturesElements = function (array) {
+  var featuresElements = document.createDocumentFragment();
+  for (var i = 0; i < array.length; i++) {
+    featuresElements.appendChild(getFeatureElement(array[i]));
+  }
+  return featuresElements;
+};
+// Возвращает фрагмент списка фото
+var getPhotosElements = function (array) {
+  var photosElement = document.createDocumentFragment();
+  for (var i = 0; i < array.length; i++) {
+    photosElement.appendChild(getPhotoElement(array[i]));
+  }
+  return photosElement;
+};
+// удаляет детей блока.
+var deleteChildren = function (element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+};
 // Функция возвращает элемент объявления
 var getOfferElement = function (obj) {
   var offerElement = similarOfferTemplate.cloneNode(true);
   offerElement.querySelector('.popup__title').textContent = obj.offer.title;
   offerElement.querySelector('.popup__text--address').textContent = obj.offer.address;
-  offerElement.querySelector('.popup__text--price').textContent = obj.offer.price + '&#x20bd';
+  offerElement.querySelector('.popup__text--price').textContent = obj.offer.price + '₽/ночь';
   offerElement.querySelector('.popup__type').textContent = translateType(obj.offer.type);
   offerElement.querySelector('.popup__text--capacity').textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
   offerElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout;
+  deleteChildren(offerElement.querySelector('.popup__features'));
+  offerElement.querySelector('.popup__features').appendChild(getFeaturesElements(obj.offer.features));
   offerElement.querySelector('.popup__description').textContent = obj.offer.description;
-  offerElement.querySelector('.popup__photos').textContent = obj.offer.photos;
+  deleteChildren(offerElement.querySelector('.popup__photos'));
+  offerElement.querySelector('.popup__photos').appendChild(getPhotosElements(obj.offer.photos));
+  offerElement.querySelector('.popup__avatar').src = obj.author.avatar;
   return offerElement;
 };
-
-
 // Генерируем массив с 8 случаными объявлениями.
 var offers = getRandomsOffers(QUANTITY_OFFER);
 
 document.querySelector('.map').classList.remove('map--faded');
-// определяем шаблон пина и объявления.
+// определяем шаблон пина и объявления, удобств, фото.
 var similarMapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var similarOfferTemplate = document.querySelector('template').content.querySelector('.map__card');
-var listFeatures = document.querySelector('template').content.querySelector('.popup__features')
+var listFeature = document.querySelector('template').content.querySelector('.popup__feature');
+var photoFeature = document.querySelector('template').content.querySelector('.popup__photo');
+
 // генерируем пины для заданного колличтсва объявлений
 var mapPinsElement = getMapPinsElements(offers);
+// генерируем объявление для первого элемента массива.
+var offerElement = getOfferElement(offers[0]);
 // вставляем сгенерированные пины в разметку.
 var containerPins = document.querySelector('.map__pins');
 containerPins.appendChild(mapPinsElement);
-console.log('offers', offers)
-console.log('getrandomLengthArray', getrandomLengthArray(FEATURES, MIN_LENGTH_ARRAY))
-console.log('getrandomLengthArray', getrandomLengthArray(TYPES, MIN_LENGTH_ARRAY))
+// генерируем тело объявления.
+var map = document.querySelector('.map');
+map.appendChild(offerElement);
