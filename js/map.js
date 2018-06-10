@@ -181,4 +181,4 @@ var containerPins = document.querySelector('.map__pins');
 containerPins.appendChild(mapPinsElement);
 // генерируем тело объявления.
 var map = document.querySelector('.map');
-map.appendChild(offerElement);
+map.insertBefore(offerElement, document.querySelector('.map__filters-container'));
