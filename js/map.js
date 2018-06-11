@@ -18,6 +18,7 @@ var WIDTH_PIN = 62;
 var HEIGHT_PIN = 84;
 var MIN_ROOM = 1;
 var MAX_ROOM = 5;
+
 // Функция случайное рандомное число без учета максимального.
 var getRandomNumberWithoutMaximum = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -44,13 +45,17 @@ var randomMixArray = function (array) {
   });
 };
 // Функция генерации одного объявления с случаными параматерами.
-var getRandomOffer = function (linkAvatar) {
+var getRandomOffer = function (avatarIndex, titlesIndex) {
+  var randomLocationX = getRandomNumberWithoutMaximum(LOCATION_MIN_X, LOCATION_MAX_X);
+  var randomLocationY = getRandomNumberWithoutMaximum(LOCATION_MIN_Y, LOCATION_MAX_Y);
+  var randomAress = randomLocationX + ', ' + randomLocationY;
   var offerInfo = {
     author: {
-      avatar: linkAvatar
+      avatar: 'img/avatars/user0' + (avatarIndex) + '.png'
     },
     offer: {
-      title: getRandomItemFromArray(TITLES),
+      title: TITLES[titlesIndex],
+      address: randomAress,
       price: getRandomNumberWithMaximum(MIX_PRICE, MAX_PRICE),
       type: getRandomItemFromArray(TYPES),
       rooms: getRandomNumberWithMaximum(MIN_ROOM, MAX_ROOM),
@@ -62,23 +67,18 @@ var getRandomOffer = function (linkAvatar) {
       photos: randomMixArray(PHOTOS)
     },
     location: {
-      x: getRandomNumberWithMaximum(LOCATION_MIN_X, LOCATION_MAX_X),
-      y: getRandomNumberWithMaximum(LOCATION_MIN_Y, LOCATION_MAX_Y)
+      x: randomLocationX,
+      y: randomLocationY
     }
   };
-  offerInfo.offer.address = offerInfo.location.x + ', ' + offerInfo.location.y;
   return offerInfo;
 };
 // Функция генерации массива с заднным(quantity) колличеством объявлений с случаными параматерами.
 var getRandomsOffers = function (quantity) {
   var randomsOffers = [];
-  var currentNumberTitlesAndAvatar = quantity;
   for (var i = 0; i <= quantity - 1; i++) {
-    var currentRandomOffer = getRandomOffer();
-    currentRandomOffer.offer.title = TITLES[currentNumberTitlesAndAvatar - 1];
-    currentRandomOffer.author.avatar = 'img/avatars/user0' + currentNumberTitlesAndAvatar + '.png';
+    var currentRandomOffer = getRandomOffer(i + 1, i);
     randomsOffers.push(currentRandomOffer);
-    currentNumberTitlesAndAvatar--;
   }
   return randomsOffers;
 };
@@ -146,22 +146,23 @@ var deleteChildren = function (element) {
   }
 };
 // Функция возвращает элемент объявления
-var getOfferElement = function (obj) {
+var getOfferElement = function (offer) {
   var offerElement = similarOfferTemplate.cloneNode(true);
-  offerElement.querySelector('.popup__title').textContent = obj.offer.title;
-  offerElement.querySelector('.popup__text--address').textContent = obj.offer.address;
-  offerElement.querySelector('.popup__text--price').textContent = obj.offer.price + '₽/ночь';
-  offerElement.querySelector('.popup__type').textContent = translateType(obj.offer.type);
-  offerElement.querySelector('.popup__text--capacity').textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей';
-  offerElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout;
+  offerElement.querySelector('.popup__title').textContent = offer.offer.title;
+  offerElement.querySelector('.popup__text--address').textContent = offer.offer.address;
+  offerElement.querySelector('.popup__text--price').textContent = offer.offer.price + '₽/ночь';
+  offerElement.querySelector('.popup__type').textContent = translateType(offer.offer.type);
+  offerElement.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
+  offerElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
   deleteChildren(offerElement.querySelector('.popup__features'));
-  offerElement.querySelector('.popup__features').appendChild(getFeaturesElements(obj.offer.features));
-  offerElement.querySelector('.popup__description').textContent = obj.offer.description;
+  offerElement.querySelector('.popup__features').appendChild(getFeaturesElements(offer.offer.features));
+  offerElement.querySelector('.popup__description').textContent = offer.offer.description;
   deleteChildren(offerElement.querySelector('.popup__photos'));
-  offerElement.querySelector('.popup__photos').appendChild(getPhotosElements(obj.offer.photos));
-  offerElement.querySelector('.popup__avatar').src = obj.author.avatar;
+  offerElement.querySelector('.popup__photos').appendChild(getPhotosElements(offer.offer.photos));
+  offerElement.querySelector('.popup__avatar').src = offer.author.avatar;
   return offerElement;
 };
+
 // Генерируем массив с 8 случаными объявлениями.
 var offers = getRandomsOffers(QUANTITY_OFFER);
 
