@@ -14,8 +14,8 @@ var MAX_PRICE = 1000000;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 12;
 var QUANTITY_OFFER = 8;
-var WIDTH_PIN = 62;
-var HEIGHT_PIN = 84;
+var WIDTH_PIN = 50;
+var HEIGHT_PIN = 70;
 var MIN_ROOM = 1;
 var MAX_ROOM = 5;
 
@@ -33,9 +33,8 @@ var getRandomItemFromArray = function (array) {
   return array[getRandomNumberWithoutMaximum(0, array.length)];
 };
 // Функция случаная длина массива.
-var getrandomLengthArray = function (array) {
+var getRandomLengthArray = function (array) {
   return array.slice(getRandomNumberWithoutMaximum(0, array.length));
-  // getRandomNumberWithMaximum(1, array.length
 };
 
 // Функция перемешивает массив случайным образом.
@@ -45,16 +44,16 @@ var randomMixArray = function (array) {
   });
 };
 // Функция генерации одного объявления с случаными параматерами.
-var getRandomOffer = function (avatarIndex, titleIndex) {
+var getRandomOffer = function (avatarTitleIndex) {
   var randomLocationX = getRandomNumberWithoutMaximum(LOCATION_MIN_X, LOCATION_MAX_X);
   var randomLocationY = getRandomNumberWithoutMaximum(LOCATION_MIN_Y, LOCATION_MAX_Y);
   var randomAress = randomLocationX + ', ' + randomLocationY;
   var offerInfo = {
     author: {
-      avatar: 'img/avatars/user0' + (avatarIndex) + '.png'
+      avatar: 'img/avatars/user0' + (avatarTitleIndex + 1) + '.png'
     },
     offer: {
-      title: TITLES[titleIndex],
+      title: TITLES[avatarTitleIndex],
       address: randomAress,
       price: getRandomNumberWithMaximum(MIX_PRICE, MAX_PRICE),
       type: getRandomItemFromArray(TYPES),
@@ -62,7 +61,7 @@ var getRandomOffer = function (avatarIndex, titleIndex) {
       guests: getRandomNumberWithMaximum(MIN_GUESTS, MAX_GUESTS),
       checkin: getRandomItemFromArray(TIMES_CHECKINS_AND_CHECKOUTS),
       checkout: getRandomItemFromArray(TIMES_CHECKINS_AND_CHECKOUTS),
-      features: getrandomLengthArray(FEATURES),
+      features: getRandomLengthArray(FEATURES),
       description: '',
       photos: randomMixArray(PHOTOS)
     },
@@ -76,8 +75,8 @@ var getRandomOffer = function (avatarIndex, titleIndex) {
 // Функция генерации массива с заднным(quantity) колличеством объявлений с случаными параматерами.
 var getRandomsOffers = function (quantity) {
   var randomsOffers = [];
-  for (var i = 0; i <= quantity - 1; i++) {
-    var currentRandomOffer = getRandomOffer(i + 1, i);
+  for (var i = 0; i < quantity; i++) {
+    var currentRandomOffer = getRandomOffer(i);
     randomsOffers.push(currentRandomOffer);
   }
   return randomsOffers;
@@ -91,10 +90,10 @@ var getMapPinElement = function (mapPin) {
   return pinElement;
 };
 // Функция возвращает множество элемнтов пин//
-var getMapPinsElements = function (array) {
+var getMapPinsElements = function (mapPins) {
   var pinsElements = document.createDocumentFragment();
-  for (var i = 0; i < array.length; i++) {
-    pinsElements.appendChild(getMapPinElement(array[i]));
+  for (var i = 0; i < mapPins.length; i++) {
+    pinsElements.appendChild(getMapPinElement(mapPins[i]));
   }
   return pinsElements;
 };
@@ -124,18 +123,18 @@ var getPhotoElement = function (link) {
   return photoElement;
 };
 // Возвращает фрагмент списка удобств.
-var getFeaturesElements = function (array) {
+var getFeaturesElements = function (features) {
   var featuresElements = document.createDocumentFragment();
-  for (var i = 0; i < array.length; i++) {
-    featuresElements.appendChild(getFeatureElement(array[i]));
+  for (var i = 0; i < features.length; i++) {
+    featuresElements.appendChild(getFeatureElement(features[i]));
   }
   return featuresElements;
 };
 // Возвращает фрагмент списка фото
-var getPhotosElements = function (array) {
+var getPhotosElements = function (photos) {
   var photosElement = document.createDocumentFragment();
-  for (var i = 0; i < array.length; i++) {
-    photosElement.appendChild(getPhotoElement(array[i]));
+  for (var i = 0; i < photos.length; i++) {
+    photosElement.appendChild(getPhotoElement(photos[i]));
   }
   return photosElement;
 };
