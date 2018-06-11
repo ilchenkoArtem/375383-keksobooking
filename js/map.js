@@ -45,7 +45,7 @@ var randomMixArray = function (array) {
   });
 };
 // Функция генерации одного объявления с случаными параматерами.
-var getRandomOffer = function (avatarIndex, titlesIndex) {
+var getRandomOffer = function (avatarIndex, titleIndex) {
   var randomLocationX = getRandomNumberWithoutMaximum(LOCATION_MIN_X, LOCATION_MAX_X);
   var randomLocationY = getRandomNumberWithoutMaximum(LOCATION_MIN_Y, LOCATION_MAX_Y);
   var randomAress = randomLocationX + ', ' + randomLocationY;
@@ -54,7 +54,7 @@ var getRandomOffer = function (avatarIndex, titlesIndex) {
       avatar: 'img/avatars/user0' + (avatarIndex) + '.png'
     },
     offer: {
-      title: TITLES[titlesIndex],
+      title: TITLES[titleIndex],
       address: randomAress,
       price: getRandomNumberWithMaximum(MIX_PRICE, MAX_PRICE),
       type: getRandomItemFromArray(TYPES),
@@ -83,11 +83,11 @@ var getRandomsOffers = function (quantity) {
   return randomsOffers;
 };
 // Функция возвращает элемент пин.
-var getMapPinElement = function (obj) {
+var getMapPinElement = function (mapPin) {
   var pinElement = similarMapPinTemplate.cloneNode(true);
-  pinElement.style = 'left: ' + (obj.location.x - WIDTH_PIN / 2) + 'px; top: ' + (obj.location.y - HEIGHT_PIN) + 'px';
-  pinElement.querySelector('img').src = obj.author.avatar;
-  pinElement.querySelector('img').alt = obj.offer.title;
+  pinElement.style = 'left: ' + (mapPin.location.x - WIDTH_PIN / 2) + 'px; top: ' + (mapPin.location.y - HEIGHT_PIN) + 'px';
+  pinElement.querySelector('img').src = mapPin.author.avatar;
+  pinElement.querySelector('img').alt = mapPin.offer.title;
   return pinElement;
 };
 // Функция возвращает множество элемнтов пин//
