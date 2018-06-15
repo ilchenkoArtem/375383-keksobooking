@@ -85,34 +85,28 @@ var getRandomsOffers = function (quantity) {
 
 var map = document.querySelector('.map');
 
-// Функция возвращает элемент пин.
-var getMapPinElement = function (offer) {
-  var pinElement = similarMapPinTemplate.cloneNode(true);
-  pinElement.style = 'left: ' + (offer.location.x - WIDTH_PIN / 2) + 'px; top: ' + (offer.location.y - HEIGHT_PIN) + 'px';
-  pinElement.querySelector('img').src = offer.author.avatar;
-  pinElement.querySelector('img').alt = offer.offer.title;
-  pinElement.addEventListener('click', function () {
-    var mapCard = map.querySelector('.map__card');
-    if (mapCard) {
-      mapCard.remove();
-    }
-    var offerElement = getOfferElement(offer);
-    map.insertBefore(offerElement, document.querySelector('.map__filters-container'));
-    var popupClose = offerElement.querySelector('.popup__close');
-    popupClose.addEventListener('click', function () {
-      document.querySelector('.map__card').remove();
-    });
-  });
-  return pinElement;
-};
-// Функция возвращает множество элемнтов пин//
-var getMapPinsElements = function (mapPins) {
-  var pinsElements = document.createDocumentFragment();
-  for (var i = 0; i < mapPins.length; i++) {
-    pinsElements.appendChild(getMapPinElement(mapPins[i]));
+var deletMapCard = function () {
+  var mapCard = map.querySelector('.map__card');
+  if (mapCard) {
+    mapCard.remove();
   }
-  return pinsElements;
 };
+
+var controlMapCard = function (offer) {
+  deletMapCard();
+  var offerElement = getOfferElement(offer);
+  map.insertBefore(offerElement, document.querySelector('.map__filters-container'));
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      deletMapCard();
+    }
+  });
+  map.querySelector('.popup__close').addEventListener('click', function () {
+    deletMapCard();
+  });
+};
+
+
 // Функция возвращает перевод типа жилья.
 var translateType = function (typeEn) {
   if (typeEn === 'flat') {
@@ -177,15 +171,36 @@ var getOfferElement = function (offer) {
   offerElement.querySelector('.popup__avatar').src = offer.author.avatar;
   return offerElement;
 };
-// функция добавления атрибута disabled
-var addDisabledFormItem = function () {
+
+// Функция возвращает элемент пин.
+var getMapPinElement = function (offer) {
+  var pinElement = similarMapPinTemplate.cloneNode(true);
+  pinElement.style = 'left: ' + (offer.location.x - WIDTH_PIN / 2) + 'px; top: ' + (offer.location.y - HEIGHT_PIN) + 'px';
+  pinElement.querySelector('img').src = offer.author.avatar;
+  pinElement.querySelector('img').alt = offer.offer.title;
+  pinElement.addEventListener('click', function () {
+    controlMapCard(offer);
+  });
+  return pinElement;
+};
+
+// Функция возвращает множество элемнтов пин//
+var getMapPinsElements = function (offers) {
+  var pinsElements = document.createDocumentFragment();
+  for (var i = 0; i < offers.length; i++) {
+    pinsElements.appendChild(getMapPinElement(offers[i]));
+  }
+  return pinsElements;
+};
+
+// функция управления утрибутом disabled у форм
+var changeFormState = function (сonfiguring) {
   for (var i = 0; i < fieldsets.length; i++) {
-    fieldsets[i].setAttribute('disabled', 'disabled');
+    fieldsets[i].disabled = сonfiguring;
   }
 };
 
-var offers = getRandomsOffers(QUANTITY_OFFER);
-// определяем шаблон пина и объявления, удобств, фото.
+// определяем шаблон пина, карточки объявления, удобств, фото.
 var similarMapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var similarOfferTemplate = document.querySelector('template').content.querySelector('.map__card');
 var listFeature = document.querySelector('template').content.querySelector('.popup__feature');
@@ -194,19 +209,21 @@ var fieldsets = document.querySelectorAll('fieldset');
 var mapPinMain = document.querySelector(' .map__pin--main');
 var containerPins = document.querySelector('.map__pins');
 var inputAdress = document.querySelector('#address');
+// генерируем 8 случайных объявлений
+var offers = getRandomsOffers(QUANTITY_OFFER);
 // генерируем пины для заданного колличтсва объявлений
 var mapPinsElement = getMapPinsElements(offers);
-// генерируем объявление для первого элемента массива.
-
-addDisabledFormItem();
+// Функция возвращает координаты главного маркера
+var getСoordinatesMainPin = function () {
+  return Math.round(mapPinMain.offsetLeft + WITH_AND_HEIGTH_MAIN_PIN / 2) + ', ' + Math.round(mapPinMain.offsetTop + WITH_AND_HEIGTH_MAIN_PIN / 2);
+};
+changeFormState('disabled');
 var onActiveMap = function () {
-  for (var i = 0; i < fieldsets.length; i++) {
-    fieldsets[i].removeAttribute('disabled', 'disabled');
-  }
+  changeFormState(null);
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
   containerPins.appendChild(mapPinsElement);
-  inputAdress.value = (mapPinMain.offsetLeft + WITH_AND_HEIGTH_MAIN_PIN / 2) + ', ' + (mapPinMain.offsetTop + WITH_AND_HEIGTH_MAIN_PIN / 2);
+  inputAdress.value = getСoordinatesMainPin();
 };
 mapPinMain.addEventListener('mouseup', onActiveMap);
