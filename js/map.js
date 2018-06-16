@@ -223,7 +223,8 @@ var deletClassError = function (input) {
   if (input.classList.contains('error')) {
     input.classList.remove('error');
   }
-}
+};
+
 var inputTimeIn = document.querySelector('#timein');
 var inputTimeOut = document.querySelector('#timeout');
 var onEditingValueInputTimeIn = function () {
