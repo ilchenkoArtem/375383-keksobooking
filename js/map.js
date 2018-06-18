@@ -264,32 +264,32 @@ var disableNumber = function (number) {
 var onСhangeCapacity = function () {
   for (var i = 0; i < options.length; i++) {
     options[i].disabled = null;
-    if (inputRoomNumber.value === '2') {
-      disableNumber(options[0]);
-      disableNumber(options[3]);
-      if (inputCapacity.value === '3' || inputCapacity.value === '0') {
-        inputCapacity.value = '2';
-      }
-    } else if (inputRoomNumber.value === '1') {
-      disableNumber(options[0]);
-      disableNumber(options[1]);
-      disableNumber(options[3]);
-      if (inputCapacity.value !== '1') {
-        inputCapacity.value = '1';
-      }
-    } else if (inputRoomNumber.value === '3') {
-      disableNumber(options[3]);
-      options[3].disabled = 'disabled';
-      if (inputCapacity.value === '0') {
-        inputCapacity.value = '3';
-      }
-    } else if (inputRoomNumber.value === '100') {
-      disableNumber(options[0]);
-      disableNumber(options[1]);
-      disableNumber(options[2]);
-      if (inputCapacity.value !== '0') {
-        inputCapacity.value = '0';
-      }
+  }
+  if (inputRoomNumber.value === '2') {
+    disableNumber(options[0]);
+    disableNumber(options[3]);
+    if (inputCapacity.value === '3' || inputCapacity.value === '0') {
+      inputCapacity.value = '2';
+    }
+  } else if (inputRoomNumber.value === '1') {
+    disableNumber(options[0]);
+    disableNumber(options[1]);
+    disableNumber(options[3]);
+    if (inputCapacity.value !== '1') {
+      inputCapacity.value = '1';
+    }
+  } else if (inputRoomNumber.value === '3') {
+    disableNumber(options[3]);
+    options[3].disabled = 'disabled';
+    if (inputCapacity.value === '0') {
+      inputCapacity.value = '3';
+    }
+  } else {
+    disableNumber(options[0]);
+    disableNumber(options[1]);
+    disableNumber(options[2]);
+    if (inputCapacity.value !== '0') {
+      inputCapacity.value = '0';
     }
   }
 };
@@ -297,12 +297,15 @@ var onСhangeCapacity = function () {
 var buttonForm = document.querySelector('.ad-form__submit');
 var inputTitle = document.querySelector('#title');
 var formInputsvalid = [inputPrice, inputTitle];
+
 // функция определение валидности полей
 var validityForm = function () {
   for (var i = 0; i < formInputsvalid.length; i++) {
-    var validity = formInputsvalid[i].valid;
+    var validity = formInputsvalid[i].validity.valid;
     if (!validity) {
       formInputsvalid[i].classList.add('error');
+    } else {
+      formInputsvalid[i].classList.remove('error');
     }
   }
 };
@@ -358,7 +361,7 @@ inputPrice.addEventListener('input', function () {
   removeClass(inputPrice, 'error');
 });
 inputTitle.addEventListener('input', function () {
-  removeClass(inputPrice, 'error');
+  removeClass(inputTitle, 'error');
 });
 buttonForm.addEventListener('click', function () {
   validityForm();
@@ -371,3 +374,6 @@ buttonForm.addEventListener('keydown', function (evt) {
 
 var formNewAd = document.querySelector('.ad-form');
 formNewAd.addEventListener('reset', onResretForm);
+formNewAd.addEventListener('submit', function () {
+  console.log(inputAdress.value);
+});
