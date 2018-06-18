@@ -85,7 +85,7 @@ var getRandomsOffers = function (quantity) {
 
 var map = document.querySelector('.map');
 
-var deletMapCard = function () {
+var deleteMapCard = function () {
   var mapCard = map.querySelector('.map__card');
   if (mapCard) {
     mapCard.remove();
@@ -93,16 +93,16 @@ var deletMapCard = function () {
 };
 
 var controlMapCard = function (offer) {
-  deletMapCard();
+  deleteMapCard();
   var offerElement = getOfferElement(offer);
   map.insertBefore(offerElement, document.querySelector('.map__filters-container'));
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 27) {
-      deletMapCard();
+      deleteMapCard();
     }
   });
   map.querySelector('.popup__close').addEventListener('click', function () {
-    deletMapCard();
+    deleteMapCard();
   });
 };
 
@@ -218,16 +218,23 @@ var onEditingTheMinPrice = function () {
     inputPrice.min = 0;
   }
 };
+// функция удаления класса;
+var removeClass = function (whereToDelete, deleteClass) {
+  if (whereToDelete.classList.contains(deleteClass)) {
+    whereToDelete.classList.remove(deleteClass);
+  }
+};
 
-var deletClassError = function (input) {
-  if (input.classList.contains('error')) {
-    input.classList.remove('error');
+var removeClasses = function (array, deleteClass) {
+  for (var i = 0; i < array.length; i++) {
+    removeClass(array[i], deleteClass);
   }
 };
 
 var inputTimeIn = document.querySelector('#timein');
 var inputTimeOut = document.querySelector('#timeout');
-var onEditingValueInputTimeIn = function () {
+
+var onСhangeTimeIn = function () {
   if (inputTimeIn.value === '12:00') {
     inputTimeOut.value = '12:00';
   } else if (inputTimeIn.value === '13:00') {
@@ -236,7 +243,7 @@ var onEditingValueInputTimeIn = function () {
     inputTimeOut.value = '14:00';
   }
 };
-var onEditingValueInputTimeOut = function () {
+var onСhangeTimeOut = function () {
   if (inputTimeOut.value === '12:00') {
     inputTimeIn.value = '12:00';
   } else if (inputTimeOut.value === '13:00') {
@@ -254,7 +261,7 @@ var disableNumber = function (number) {
   number.disabled = 'disabled';
 };
 // функция управления настройками поля 'Колличество мест'
-var onEditingValueInputCapacity = function () {
+var onСhangeCapacity = function () {
   for (var i = 0; i < options.length; i++) {
     options[i].disabled = null;
     if (inputRoomNumber.value === '2') {
@@ -299,7 +306,6 @@ var validityForm = function () {
     }
   }
 };
-
 // функция возвращения полей в первоначальное состояние
 var onResretForm = function () {
   setTimeout(function () {
@@ -311,6 +317,7 @@ var onResretForm = function () {
     disableNumber(options[3]);
     inputAdress.value = getСoordinatesMainPin();
     mapPinMain.style = 'left: 570px; top: 375px';
+    removeClasses(formInputsvalid, 'error');
   }, 0);
 };
 
@@ -344,14 +351,14 @@ var onActiveMap = function () {
 
 mapPinMain.addEventListener('mouseup', onActiveMap);
 inputType.addEventListener('input', onEditingTheMinPrice);
-inputTimeIn.addEventListener('input', onEditingValueInputTimeIn);
-inputTimeOut.addEventListener('input', onEditingValueInputTimeOut);
-inputRoomNumber.addEventListener('input', onEditingValueInputCapacity);
+inputTimeIn.addEventListener('input', onСhangeTimeIn);
+inputTimeOut.addEventListener('input', onСhangeTimeOut);
+inputRoomNumber.addEventListener('input', onСhangeCapacity);
 inputPrice.addEventListener('input', function () {
-  deletClassError(inputPrice);
+  removeClass(inputPrice, 'error');
 });
 inputTitle.addEventListener('input', function () {
-  deletClassError(inputTitle);
+  removeClass(inputPrice, 'error');
 });
 buttonForm.addEventListener('click', function () {
   validityForm();
@@ -363,5 +370,4 @@ buttonForm.addEventListener('keydown', function (evt) {
 });
 
 var formNewAd = document.querySelector('.ad-form');
-
 formNewAd.addEventListener('reset', onResretForm);
