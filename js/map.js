@@ -261,81 +261,38 @@ var disableNumber = function (number) {
   number.disabled = 'disabled';
 };
 // функция управления настройками поля 'Колличество мест'
-var capacity = [
-  {
-    value: '1',
-    text: 'для 1 гостей'
-  },
-  {
-    value: '2',
-    text: 'для 2 гостей'
-  },
-  {
-    value: '3',
-    text: 'для 3 гостей'
-  },
-  {
-    value: '0',
-    text: 'не для гостей'
-  }
-
-];
-
-var newOption = function (text, value) {
-  var option = new Option(text, value);
-  inputCapacity.options[inputCapacity.options.length] = option;
-  return option;
-};
-var newOptions = function (cycle) {
-  for (var i = 0; i < cycle; i++) {
-    var option = newOption(capacity[i].text, capacity[i].value);
-    inputCapacity.options[i] = option;
-  }
-};
 var onСhangeCapacity = function () {
-  inputCapacity.length = 0;
-  if (inputRoomNumber.value === '1') {
-    newOptions(1);
-  } else if (inputRoomNumber.value === '2') {
-    newOptions(2);
+  for (var i = 0; i < options.length; i++) {
+    options[i].disabled = null;
+  }
+  if (inputRoomNumber.value === '2') {
+    disableNumber(options[0]);
+    disableNumber(options[3]);
+    if (inputCapacity.value === '3' || inputCapacity.value === '0') {
+      inputCapacity.value = '2';
+    }
+  } else if (inputRoomNumber.value === '1') {
+    disableNumber(options[0]);
+    disableNumber(options[1]);
+    disableNumber(options[3]);
+    if (inputCapacity.value !== '1') {
+      inputCapacity.value = '1';
+    }
   } else if (inputRoomNumber.value === '3') {
-    newOptions(3);
+    disableNumber(options[3]);
+    options[3].disabled = 'disabled';
+    if (inputCapacity.value === '0') {
+      inputCapacity.value = '3';
+    }
   } else {
-    newOption(capacity[3].text, capacity[3].value);
+    disableNumber(options[0]);
+    disableNumber(options[1]);
+    disableNumber(options[2]);
+    if (inputCapacity.value !== '0') {
+      inputCapacity.value = '0';
+    }
   }
 };
-// var onСhangeCapacity = function () {
-//   for (var i = 0; i < options.length; i++) {
-//     options[i].disabled = null;
-//   }
-//   if (inputRoomNumber.value === '2') {
-//     disableNumber(options[0]);
-//     disableNumber(options[3]);
-//     if (inputCapacity.value === '3' || inputCapacity.value === '0') {
-//       inputCapacity.value = '2';
-//     }
-//   } else if (inputRoomNumber.value === '1') {
-//     disableNumber(options[0]);
-//     disableNumber(options[1]);
-//     disableNumber(options[3]);
-//     if (inputCapacity.value !== '1') {
-//       inputCapacity.value = '1';
-//     }
-//   } else if (inputRoomNumber.value === '3') {
-//     disableNumber(options[3]);
-//     options[3].disabled = 'disabled';
-//     if (inputCapacity.value === '0') {
-//       inputCapacity.value = '3';
-//     }
-//   } else {
-//     disableNumber(options[0]);
-//     disableNumber(options[1]);
-//     disableNumber(options[2]);
-//     if (inputCapacity.value !== '0') {
-//       inputCapacity.value = '0';
-//     }
-//   }
-// };
 
 var buttonForm = document.querySelector('.ad-form__submit');
 var inputTitle = document.querySelector('#title');
@@ -417,3 +374,6 @@ buttonForm.addEventListener('keydown', function (evt) {
 
 var formNewAd = document.querySelector('.ad-form');
 formNewAd.addEventListener('reset', onResretForm);
+formNewAd.addEventListener('submit', function () {
+  console.log(inputAdress.value);
+});
