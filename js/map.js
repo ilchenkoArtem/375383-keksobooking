@@ -374,6 +374,3 @@ buttonForm.addEventListener('keydown', function (evt) {
 
 var formNewAd = document.querySelector('.ad-form');
 formNewAd.addEventListener('reset', onResretForm);
-formNewAd.addEventListener('submit', function () {
-  console.log(inputAdress.value);
-});
