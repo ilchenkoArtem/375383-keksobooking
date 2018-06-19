@@ -85,7 +85,7 @@ var getRandomsOffers = function (quantity) {
 
 var map = document.querySelector('.map');
 
-var deletMapCard = function () {
+var deleteMapCard = function () {
   var mapCard = map.querySelector('.map__card');
   if (mapCard) {
     mapCard.remove();
@@ -93,16 +93,16 @@ var deletMapCard = function () {
 };
 
 var controlMapCard = function (offer) {
-  deletMapCard();
+  deleteMapCard();
   var offerElement = getOfferElement(offer);
   map.insertBefore(offerElement, document.querySelector('.map__filters-container'));
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 27) {
-      deletMapCard();
+      deleteMapCard();
     }
   });
   map.querySelector('.popup__close').addEventListener('click', function () {
-    deletMapCard();
+    deleteMapCard();
   });
 };
 
@@ -200,6 +200,130 @@ var changeFormState = function (сonfiguring) {
   }
 };
 
+var inputPrice = document.querySelector('#price');
+var inputType = document.querySelector('#type');
+// функция меняющая значение минимальное значение поля "Цена"
+var onEditingTheMinPrice = function () {
+  if (inputType.value === 'flat') {
+    inputPrice.placeholder = 1000;
+    inputPrice.min = 1000;
+  } else if (inputType.value === 'house') {
+    inputPrice.placeholder = 5000;
+    inputPrice.min = 5000;
+  } else if (inputType.value === 'palace') {
+    inputPrice.placeholder = 10000;
+    inputPrice.min = 10000;
+  } else {
+    inputPrice.placeholder = 0;
+    inputPrice.min = 0;
+  }
+};
+// функция удаления класса;
+var removeClass = function (whereToDelete, deleteClass) {
+  if (whereToDelete.classList.contains(deleteClass)) {
+    whereToDelete.classList.remove(deleteClass);
+  }
+};
+
+var removeClasses = function (array, deleteClass) {
+  for (var i = 0; i < array.length; i++) {
+    removeClass(array[i], deleteClass);
+  }
+};
+
+var inputTimeIn = document.querySelector('#timein');
+var inputTimeOut = document.querySelector('#timeout');
+
+var onСhangeTimeIn = function () {
+  if (inputTimeIn.value === '12:00') {
+    inputTimeOut.value = '12:00';
+  } else if (inputTimeIn.value === '13:00') {
+    inputTimeOut.value = '13:00';
+  } else {
+    inputTimeOut.value = '14:00';
+  }
+};
+var onСhangeTimeOut = function () {
+  if (inputTimeOut.value === '12:00') {
+    inputTimeIn.value = '12:00';
+  } else if (inputTimeOut.value === '13:00') {
+    inputTimeIn.value = '13:00';
+  } else {
+    inputTimeIn.value = '14:00';
+  }
+};
+
+var inputRoomNumber = document.querySelector('#room_number');
+var inputCapacity = document.querySelector('#capacity');
+var options = inputCapacity.querySelectorAll('option');
+// функция добавления атрибута disabled
+var disableNumber = function (number) {
+  number.disabled = 'disabled';
+};
+// функция управления настройками поля 'Колличество мест'
+var onСhangeCapacity = function () {
+  for (var i = 0; i < options.length; i++) {
+    options[i].disabled = null;
+  }
+  if (inputRoomNumber.value === '2') {
+    disableNumber(options[0]);
+    disableNumber(options[3]);
+    if (inputCapacity.value === '3' || inputCapacity.value === '0') {
+      inputCapacity.value = '2';
+    }
+  } else if (inputRoomNumber.value === '1') {
+    disableNumber(options[0]);
+    disableNumber(options[1]);
+    disableNumber(options[3]);
+    if (inputCapacity.value !== '1') {
+      inputCapacity.value = '1';
+    }
+  } else if (inputRoomNumber.value === '3') {
+    disableNumber(options[3]);
+    options[3].disabled = 'disabled';
+    if (inputCapacity.value === '0') {
+      inputCapacity.value = '3';
+    }
+  } else {
+    disableNumber(options[0]);
+    disableNumber(options[1]);
+    disableNumber(options[2]);
+    if (inputCapacity.value !== '0') {
+      inputCapacity.value = '0';
+    }
+  }
+};
+
+var buttonForm = document.querySelector('.ad-form__submit');
+var inputTitle = document.querySelector('#title');
+var formInputsvalid = [inputPrice, inputTitle];
+
+// функция определение валидности полей
+var validityForm = function () {
+  for (var i = 0; i < formInputsvalid.length; i++) {
+    var validity = formInputsvalid[i].validity.valid;
+    if (!validity) {
+      formInputsvalid[i].classList.add('error');
+    } else {
+      formInputsvalid[i].classList.remove('error');
+    }
+  }
+};
+// функция возвращения полей в первоначальное состояние
+var onResretForm = function () {
+  setTimeout(function () {
+    inputPrice.placeholder = 1000;
+    inputPrice.min = 1000;
+    inputCapacity.value = '1';
+    disableNumber(options[0]);
+    disableNumber(options[1]);
+    disableNumber(options[3]);
+    inputAdress.value = getСoordinatesMainPin();
+    mapPinMain.style = 'left: 570px; top: 375px';
+    removeClasses(formInputsvalid, 'error');
+  }, 0);
+};
+
 // определяем шаблон пина, карточки объявления, удобств, фото.
 var similarMapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var similarOfferTemplate = document.querySelector('template').content.querySelector('.map__card');
@@ -217,6 +341,7 @@ var mapPinsElement = getMapPinsElements(offers);
 var getСoordinatesMainPin = function () {
   return Math.round(mapPinMain.offsetLeft + WITH_AND_HEIGTH_MAIN_PIN / 2) + ', ' + Math.round(mapPinMain.offsetTop + WITH_AND_HEIGTH_MAIN_PIN / 2);
 };
+// перевод страницы в аквтиное состояние
 changeFormState('disabled');
 var onActiveMap = function () {
   changeFormState(null);
@@ -226,4 +351,26 @@ var onActiveMap = function () {
   containerPins.appendChild(mapPinsElement);
   inputAdress.value = getСoordinatesMainPin();
 };
+
 mapPinMain.addEventListener('mouseup', onActiveMap);
+inputType.addEventListener('input', onEditingTheMinPrice);
+inputTimeIn.addEventListener('input', onСhangeTimeIn);
+inputTimeOut.addEventListener('input', onСhangeTimeOut);
+inputRoomNumber.addEventListener('input', onСhangeCapacity);
+inputPrice.addEventListener('input', function () {
+  removeClass(inputPrice, 'error');
+});
+inputTitle.addEventListener('input', function () {
+  removeClass(inputTitle, 'error');
+});
+buttonForm.addEventListener('click', function () {
+  validityForm();
+});
+buttonForm.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    validityForm();
+  }
+});
+
+var formNewAd = document.querySelector('.ad-form');
+formNewAd.addEventListener('reset', onResretForm);
