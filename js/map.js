@@ -377,6 +377,7 @@ var formNewAd = document.querySelector('.ad-form');
 formNewAd.addEventListener('reset', onResretForm);
 // ------------------------Drag-and-drop -------------------
 mapPinMain.addEventListener('mousedown', function (downEvt) {
+  var mapPins = document.querySelector('.map__pins');
   downEvt.preventDefault();
   inputAdress.value = getСoordinatesMainPin();
   onActiveMap();
@@ -395,6 +396,10 @@ mapPinMain.addEventListener('mousedown', function (downEvt) {
       x: moveEvt.pageX,
       y: moveEvt.pageY
     };
+
+    var widthMapPins = mapPins.offsetWidth;
+    var minDistanceLeftPin = 0;
+    var maxDistanceLeftPin = widthMapPins - WIDTH_MAIN_PIN;
     var minDistanceTopPin = LOCATION_MIN_Y - HEIGTH_MAIN_PIN;
     var maxnDistanceTopPin = LOCATION_MAX_Y - HEIGTH_MAIN_PIN;
     var top = mapPinMain.offsetTop - shift.y;
@@ -402,13 +407,19 @@ mapPinMain.addEventListener('mousedown', function (downEvt) {
     if (top <= (minDistanceTopPin)) {
       mapPinMain.style.top = minDistanceTopPin + 'px';
       mapPinMain.style.left = left + 'px';
-      startCoords.y = minDistanceTopPin;
     } else if (top >= maxnDistanceTopPin) {
       mapPinMain.style.top = maxnDistanceTopPin + 'px';
       mapPinMain.style.left = left + 'px';
       startCoords.y = maxnDistanceTopPin;
     } else {
       mapPinMain.style.top = top + 'px';
+      mapPinMain.style.left = left + 'px';
+    }
+    if (left < minDistanceLeftPin) {
+      mapPinMain.style.left = minDistanceLeftPin + 'px';
+    } else if (left > maxDistanceLeftPin) {
+      mapPinMain.style.left = maxDistanceLeftPin + 'px';
+    } else {
       mapPinMain.style.left = left + 'px';
     }
     inputAdress.value = getСoordinatesMainPin();
@@ -419,7 +430,7 @@ mapPinMain.addEventListener('mousedown', function (downEvt) {
     mapPins.removeEventListener('mousemove', onMouseMove);
     mapPins.removeEventListener('mouseup', onMouseUp);
   };
-  var mapPins = document.querySelector('.map__pins');
+
   mapPins.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
