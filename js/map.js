@@ -7,8 +7,6 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var LOCATION_MIN_X = 300;
 var LOCATION_MAX_X = 900;
-var LOCATION_MIN_Y = 130;
-var LOCATION_MAX_Y = 630;
 var MIX_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var MIN_GUESTS = 1;
@@ -45,10 +43,12 @@ var randomMixArray = function (array) {
     return Math.random() - 0.5;
   });
 };
+
 // Функция генерации одного объявления с случаными параматерами.
 var getRandomOffer = function (avatarTitleIndex) {
   var randomLocationX = getRandomNumberWithoutMaximum(LOCATION_MIN_X, LOCATION_MAX_X);
-  var randomLocationY = getRandomNumberWithoutMaximum(LOCATION_MIN_Y, LOCATION_MAX_Y);
+  var randomLocationY = getRandomNumberWithoutMaximum(window.options.LOCATION_MIN_Y, window.options.LOCATION_MAX_Y);
+
   var randomAress = randomLocationX + ', ' + randomLocationY;
   var offerInfo = {
     author: {
@@ -74,6 +74,7 @@ var getRandomOffer = function (avatarTitleIndex) {
   };
   return offerInfo;
 };
+
 // Функция генерации массива с заднным(quantity) колличеством объявлений с случаными параматерами.
 var getRandomsOffers = function (quantity) {
   var randomsOffers = [];
@@ -400,8 +401,8 @@ mapPinMain.addEventListener('mousedown', function (downEvt) {
     var widthMapPins = mapPins.offsetWidth;
     var minDistanceLeftPin = 0;
     var maxDistanceLeftPin = widthMapPins - WIDTH_MAIN_PIN;
-    var minDistanceTopPin = LOCATION_MIN_Y - HEIGTH_MAIN_PIN;
-    var maxnDistanceTopPin = LOCATION_MAX_Y - HEIGTH_MAIN_PIN;
+    var minDistanceTopPin = window.options.LOCATION_MIN_Y - HEIGTH_MAIN_PIN;
+    var maxnDistanceTopPin = window.options.LOCATION_MAX_Y - HEIGTH_MAIN_PIN;
     var top = mapPinMain.offsetTop - shift.y;
     var left = mapPinMain.offsetLeft - shift.x;
     if (top <= (minDistanceTopPin)) {
