@@ -14,7 +14,6 @@
   var MAX_GUESTS = 12;
   var MIN_ROOM = 1;
   var MAX_ROOM = 5;
-
   // Функция случайное рандомное число без учета максимального.
   var getRandomNumberWithoutMaximum = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;

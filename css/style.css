@@ -1220,3 +1220,22 @@ fieldset {
 input.error {
   border: 1px solid #C10020;
 }
+
+.error-popup--hidden{
+  visibility: hidden;
+}
+
+.error-popup{
+  width: auto;
+  height: auto;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-bottom-right-radius: 20px;
+  padding: 5px;
+  box-shadow:  5px 5px 10px #000;
+  color: #000;
+  text-align: center;
+  z-index: 200;
+};
