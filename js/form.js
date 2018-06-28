@@ -123,7 +123,7 @@
     window.variables.mapPinMain.style = 'left: 570px; top: 375px';
     removeClasses(formInputsvalid, 'error');
   };
-  var submitReset = function () {
+  var onSubmitReset = function () {
     formNewAd.removeEventListener('reset', onResetAndDisableForm);
     formNewAd.reset();
     standartReset();
@@ -162,7 +162,7 @@
   formNewAd.addEventListener('reset', onResetAndDisableForm);
 
   formNewAd.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(formNewAd), submitReset, window.util.onError);
+    window.backend.save(onSubmitReset, window.util.onError, new FormData(formNewAd));
     evt.preventDefault();
   });
 })();

@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  // var QUANTITY_OFFER = 8;
   var fieldsets = document.querySelectorAll('fieldset');
   // определяем контейнера пина
   var containerPins = document.querySelector('.map__pins');
@@ -16,9 +15,6 @@
       array[i].remove();
     }
   };
-  // генерируем 8 случайных объявлений
-  // var offers = window.getRandomsOffers(QUANTITY_OFFER);
-
   // генерируем пины для заданного колличтсва объявлений
   window.activeMap = {
     onActiveMap: function (array) {
