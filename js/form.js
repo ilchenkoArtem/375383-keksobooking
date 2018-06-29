@@ -113,7 +113,7 @@
   };
   var formNewAd = document.querySelector('.ad-form');
 
-  var standartReset = function () {
+  var resetForm = function () {
     inputPrice.placeholder = 1000;
     inputPrice.min = 1000;
     inputCapacity.value = '1';
@@ -123,17 +123,18 @@
     window.variables.mapPinMain.style = 'left: 570px; top: 375px';
     removeClasses(formInputsvalid, 'error');
   };
+
   var onSubmitReset = function () {
     formNewAd.removeEventListener('reset', onResetAndDisableForm);
     formNewAd.reset();
-    standartReset();
+    resetForm();
     window.variables.inputAdress.value = window.util.getСoordinatesMainPin();
     formNewAd.addEventListener('reset', onResetAndDisableForm);
   };
   // функция возвращения полей в первоначальное состояние
   var onResetAndDisableForm = function () {
     setTimeout(function () {
-      standartReset();
+      resetForm();
       window.variables.inputAdress.value = null;
       window.activeMap.disableMap();
     }, 0);

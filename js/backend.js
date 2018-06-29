@@ -18,10 +18,8 @@
           break;
         default:
           errorText = 'Cтатус ответа:' + xhr.status + ' ' + xhr.statusText;
+          onError(errorText);
           break;
-      }
-      if (errorText) {
-        onError(errorText);
       }
     });
 
