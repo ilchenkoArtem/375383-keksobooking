@@ -114,8 +114,7 @@
   var formNewAd = document.querySelector('.ad-form');
 
   var resetForm = function () {
-    inputPrice.placeholder = 1000;
-    inputPrice.min = 1000;
+    onEditingTheMinPrice();
     inputCapacity.value = '1';
     disableNumber(optionsCapacity[0]);
     disableNumber(optionsCapacity[1]);

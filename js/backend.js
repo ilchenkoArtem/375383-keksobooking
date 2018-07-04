@@ -12,14 +12,11 @@
 
     xhr.addEventListener('load', function () {
       var errorText;
-      switch (xhr.status) {
-        case 200:
-          onLoad(xhr.response);
-          break;
-        default:
-          errorText = 'Cтатус ответа:' + xhr.status + ' ' + xhr.statusText;
-          onError(errorText);
-          break;
+      if (xhr.status === 200) {
+        onLoad(xhr.response);
+      } else {
+        errorText = 'Cтатус ответа:' + xhr.status + ' ' + xhr.statusText;
+        onError(errorText);
       }
     });
 

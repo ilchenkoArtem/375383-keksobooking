@@ -22,16 +22,14 @@
       changeFormState(null);
       document.querySelector('.map').classList.remove('map--faded');
       document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-      document.querySelector('.ad-form').classList.remove('ad-form--disabled');
       containerPins.appendChild(mapPinsElement);
       window.variables.inputAdress.value = window.util.getСoordinatesMainPin();
     },
     disableMap: function () {
-      var allPins = containerPins.querySelectorAll('button:not(:first-of-type)');
+      var allPins = containerPins.querySelectorAll('[type = button]');
       deletePin(allPins);
       changeFormState('disabled');
       document.querySelector('.map').classList.add('map--faded');
-      document.querySelector('.ad-form').classList.add('ad-form--disabled');
       document.querySelector('.ad-form').classList.add('ad-form--disabled');
     }
   };
