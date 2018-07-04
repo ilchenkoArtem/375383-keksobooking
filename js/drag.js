@@ -6,7 +6,7 @@
     var mapPins = document.querySelector('.map__pins');
     downEvt.preventDefault();
     window.variables.inputAdress.value = window.util.getСoordinatesMainPin();
-    window.backend.load(window.activeMap.onActiveMap, window.util.onError);
+    window.backend.load(window.onSuccess, window.util.onError);
     var startCoords = {
       x: downEvt.pageX,
       y: downEvt.pageY

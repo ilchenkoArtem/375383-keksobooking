@@ -59,7 +59,7 @@
   var inputCapacity = document.querySelector('#capacity');
   var optionsCapacity = inputCapacity.querySelectorAll('option');
   // функция добавления атрибута disabled
-  var disableNumber = function (number) {
+  var disabledNumber = function (number) {
     number.disabled = 'disabled';
   };
   // функция управления настройками поля 'Колличество мест'
@@ -68,28 +68,28 @@
       optionsCapacity[i].disabled = null;
     }
     if (inputRoomNumber.value === '2') {
-      disableNumber(optionsCapacity[0]);
-      disableNumber(optionsCapacity[3]);
+      disabledNumber(optionsCapacity[0]);
+      disabledNumber(optionsCapacity[3]);
       if (inputCapacity.value === '3' || inputCapacity.value === '0') {
         inputCapacity.value = '2';
       }
     } else if (inputRoomNumber.value === '1') {
-      disableNumber(optionsCapacity[0]);
-      disableNumber(optionsCapacity[1]);
-      disableNumber(optionsCapacity[3]);
+      disabledNumber(optionsCapacity[0]);
+      disabledNumber(optionsCapacity[1]);
+      disabledNumber(optionsCapacity[3]);
       if (inputCapacity.value !== '1') {
         inputCapacity.value = '1';
       }
     } else if (inputRoomNumber.value === '3') {
-      disableNumber(optionsCapacity[3]);
+      disabledNumber(optionsCapacity[3]);
       optionsCapacity[3].disabled = 'disabled';
       if (inputCapacity.value === '0') {
         inputCapacity.value = '3';
       }
     } else {
-      disableNumber(optionsCapacity[0]);
-      disableNumber(optionsCapacity[1]);
-      disableNumber(optionsCapacity[2]);
+      disabledNumber(optionsCapacity[0]);
+      disabledNumber(optionsCapacity[1]);
+      disabledNumber(optionsCapacity[2]);
       if (inputCapacity.value !== '0') {
         inputCapacity.value = '0';
       }
@@ -116,9 +116,9 @@
   var resetForm = function () {
     onEditingTheMinPrice();
     inputCapacity.value = '1';
-    disableNumber(optionsCapacity[0]);
-    disableNumber(optionsCapacity[1]);
-    disableNumber(optionsCapacity[3]);
+    disabledNumber(optionsCapacity[0]);
+    disabledNumber(optionsCapacity[1]);
+    disabledNumber(optionsCapacity[3]);
     window.variables.mapPinMain.style = 'left: 570px; top: 375px';
     removeClasses(formInputsvalid, 'error');
   };
@@ -135,7 +135,7 @@
     setTimeout(function () {
       resetForm();
       window.variables.inputAdress.value = null;
-      window.activeMap.disableMap();
+      window.disabledMap();
     }, 0);
   };
 

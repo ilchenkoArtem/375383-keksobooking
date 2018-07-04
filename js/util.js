@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  // Функция возвращает координаты главного маркера
+
   window.util = {
     getСoordinatesMainPin: function () {
       return Math.round(window.variables.mapPinMain.offsetLeft + window.variables.WIDTH_MAIN_PIN / 2) + ', ' + Math.floor(window.variables.mapPinMain.offsetTop + window.variables.HEIGTH_MAIN_PIN);
@@ -14,6 +14,28 @@
       setTimeout(function () {
         formError.classList.add('error-popup--hidden');
       }, 2000);
+    },
+    changeFormState: function (сonfiguring) {
+      var fieldsets = document.querySelectorAll('fieldset');
+      for (var i = 0; i < fieldsets.length; i++) {
+        fieldsets[i].disabled = сonfiguring;
+      }
+    },
+    deletePin: function () {
+      var allPins = window.variables.containerPins.querySelectorAll('[type = button]');
+      for (var i = 0; i < allPins.length; i++) {
+        allPins[i].remove();
+      }
+    },
+    render: function (array) {
+      var mapPinsElement = window.getMapPinsElements(array);
+      window.variables.containerPins.appendChild(mapPinsElement);
+    },
+    deleteMapCard: function () {
+      var mapCard = document.querySelector('.map__card');
+      if (mapCard) {
+        mapCard.remove();
+      }
     }
   };
 })();

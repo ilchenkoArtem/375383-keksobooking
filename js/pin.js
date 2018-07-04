@@ -2,6 +2,7 @@
 (function () {
   var WIDTH_PIN = 50;
   var HEIGHT_PIN = 70;
+  var MAX_QUANTIT_PIN = 5;
   var similarMapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
   // Функция возвращает элемент пин.
@@ -18,6 +19,9 @@
 
   // Функция возвращает множество элемнтов пин//
   window.getMapPinsElements = function (offers) {
+    if (offers.length > MAX_QUANTIT_PIN) {
+      offers = offers.slice(0, MAX_QUANTIT_PIN);
+    }
     var pinsElements = document.createDocumentFragment();
     for (var i = 0; i < offers.length; i++) {
       pinsElements.appendChild(getMapPinElement(offers[i]));
