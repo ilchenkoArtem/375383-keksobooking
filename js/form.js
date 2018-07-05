@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ENTER_KEY_KODE = 13;
   var inputPrice = document.querySelector('#price');
   var inputType = document.querySelector('#type');
 
@@ -123,30 +124,51 @@
     }, 0);
   };
 
-  inputType.addEventListener('input', onEditingTheMinPrice);
-  inputTimeIn.addEventListener('input', onСhangeTimeIn);
-  inputTimeOut.addEventListener('input', onСhangeTimeOut);
-  inputRoomNumber.addEventListener('input', onСhangeCapacity);
-  inputPrice.addEventListener('input', function () {
+  var onInputPriceRemoveClassError = function () {
     removeClass(inputPrice, 'error');
-  });
-  inputTitle.addEventListener('input', function () {
+  };
+
+  var onInputTitleRemoveClassError = function () {
     removeClass(inputTitle, 'error');
-  });
-  buttonForm.addEventListener('click', function () {
-    validityForm();
-  });
-  buttonForm.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
+  };
+
+  var onValidityForKeydownEnter = function (evt) {
+    if (evt.keyCode === ENTER_KEY_KODE) {
       validityForm();
     }
-  });
+  };
 
-
-  formNewAd.addEventListener('reset', onResetAndDisableForm);
-
-  formNewAd.addEventListener('submit', function (evt) {
+  var onSubmitForm = function (evt) {
     window.backend.save(onSubmitReset, window.util.onError, new FormData(formNewAd));
     evt.preventDefault();
-  });
+  };
+
+  window.form = {
+    addHandler: function () {
+      inputType.addEventListener('input', onEditingTheMinPrice);
+      inputTimeIn.addEventListener('input', onСhangeTimeIn);
+      inputTimeOut.addEventListener('input', onСhangeTimeOut);
+      inputRoomNumber.addEventListener('input', onСhangeCapacity);
+      inputPrice.addEventListener('input', onInputPriceRemoveClassError);
+      inputTitle.addEventListener('input', onInputTitleRemoveClassError);
+      buttonForm.addEventListener('click', validityForm);
+      buttonForm.addEventListener('keydown', onValidityForKeydownEnter);
+      formNewAd.addEventListener('keydown', onValidityForKeydownEnter);
+      formNewAd.addEventListener('reset', onResetAndDisableForm);
+      formNewAd.addEventListener('submit', onSubmitForm);
+    },
+    removeHandler: function () {
+      inputType.removeEventListener('input', onEditingTheMinPrice);
+      inputTimeIn.removeEventListener('input', onСhangeTimeIn);
+      inputTimeOut.removeEventListener('input', onСhangeTimeOut);
+      inputRoomNumber.removeEventListener('input', onСhangeCapacity);
+      inputPrice.removeEventListener('input', onInputPriceRemoveClassError);
+      inputTitle.removeEventListener('input', onInputTitleRemoveClassError);
+      buttonForm.removeEventListener('click', validityForm);
+      buttonForm.removeEventListener('keydown', onValidityForKeydownEnter);
+      formNewAd.removeEventListener('keydown', onValidityForKeydownEnter);
+      formNewAd.removeEventListener('reset', onResetAndDisableForm);
+      formNewAd.removeEventListener('submit', onSubmitForm);
+    }
+  };
 })();

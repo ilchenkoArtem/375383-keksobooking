@@ -79,6 +79,9 @@
     },
     resetFilter: function () {
       filterForm.reset();
+    },
+    addChangeFilterHandler: function () {
+      filterForm.addEventListener('change', onReadPin);
     }
   };
 
@@ -95,8 +98,4 @@
       disabledFilter(null);
     }, INTERVAL_UPDATE_PIN);
   };
-
-  filterForm.addEventListener('change', onReadPin);
-
-
 })();

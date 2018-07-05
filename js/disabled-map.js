@@ -9,5 +9,7 @@
     window.variables.mapPinMain.addEventListener('mousedown', window.util.onLoadData);
     window.filter.resetFilter();
     window.util.deleteMapCard();
+    window.form.removeHandler();
+    window.filter.addChangeFilterHandler();
   };
 })();
