@@ -2,11 +2,12 @@
 
 (function () {
   // ------------------------Drag-and-drop -------------------
+  window.variables.mapPinMain.addEventListener('mousedown', window.util.onLoadData);
+
   window.variables.mapPinMain.addEventListener('mousedown', function (downEvt) {
     var mapPins = document.querySelector('.map__pins');
     downEvt.preventDefault();
     window.variables.inputAdress.value = window.util.getСoordinatesMainPin();
-    window.backend.load(window.onSuccess, window.util.onError);
     var startCoords = {
       x: downEvt.pageX,
       y: downEvt.pageY

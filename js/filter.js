@@ -5,19 +5,16 @@
   var INTERVAL_UPDATE_PIN = 500; // мс
   var offers = [];
 
-  window.onSuccess = function (array) {
-    offers = array;
-    window.onActiveMap(offers);
-    window.util.render(array);
-  };
   var filterForm = document.querySelector('.map__filters');
   var mapFeatures = document.querySelector('.map__features');
-
   var filterType = filterForm.querySelector('#housing-type');
   var filterPrice = filterForm.querySelector('#housing-price');
   var filterRooms = filterForm.querySelector('#housing-rooms');
   var filterGuests = filterForm.querySelector('#housing-guests');
   var filterFeatures = mapFeatures.querySelectorAll('.map__checkbox');
+  var selectForm = filterForm.querySelectorAll('select');
+  selectForm = Array.from(selectForm);
+  selectForm.push(mapFeatures);
 
   var filterOnType = function (item) {
     if (filterType.value === 'any') {
@@ -74,10 +71,18 @@
     window.util.render(filtredPins);
   };
 
+  window.filter = {
+    onSuccess: function (array) {
+      offers = array;
+      window.onActiveMap(offers);
+      window.util.render(array);
+    },
+    resetFilter: function () {
+      filterForm.reset();
+    }
+  };
+
   var disabledFilter = function (сonfiguring) {
-    var selectForm = filterForm.querySelectorAll('select');
-    selectForm = Array.from(selectForm);
-    selectForm.push(mapFeatures);
     for (var i = 0; i < selectForm.length; i++) {
       selectForm[i].disabled = сonfiguring;
     }
@@ -92,4 +97,6 @@
   };
 
   filterForm.addEventListener('change', onReadPin);
+
+
 })();

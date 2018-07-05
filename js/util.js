@@ -36,6 +36,11 @@
       if (mapCard) {
         mapCard.remove();
       }
+    },
+    onLoadData: function (evt) {
+      evt.preventDefault();
+      window.backend.load(window.filter.onSuccess, window.util.onError);
+      window.variables.mapPinMain.removeEventListener('mousedown', window.util.onLoadData);
     }
   };
 })();
