@@ -3,6 +3,8 @@
 (function () {
   var ESC_KEY_CODE = 27;
   var map = document.querySelector('.map');
+  var buttonClosePopup = map.querySelector('.popup__close');
+
   window.controlMapCard = function (offer) {
     window.util.deleteMapCard();
     var offerElement = window.getOfferElement(offer);
@@ -12,7 +14,7 @@
         window.util.deleteMapCard();
       }
     });
-    map.querySelector('.popup__close').addEventListener('click', function () {
+    buttonClosePopup.addEventListener('click', function () {
       window.util.deleteMapCard();
     });
   };

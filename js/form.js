@@ -4,21 +4,27 @@
   var inputPrice = document.querySelector('#price');
   var inputType = document.querySelector('#type');
 
-  // функция меняющая значение минимальное значение поля "Цена"
+  // функция меняющая минимальное значение поля "Цена"
   var onEditingTheMinPrice = function () {
-    if (inputType.value === 'flat') {
-      inputPrice.placeholder = 1000;
-      inputPrice.min = 1000;
-    } else if (inputType.value === 'house') {
-      inputPrice.placeholder = 5000;
-      inputPrice.min = 5000;
-    } else if (inputType.value === 'palace') {
-      inputPrice.placeholder = 10000;
-      inputPrice.min = 10000;
-    } else {
-      inputPrice.placeholder = 0;
-      inputPrice.min = 0;
-    }
+    var typeToPrice = {
+      'flat': 1000,
+      'house': 5000,
+      'palace': 10000,
+      'bungalo': 0
+    };
+    inputPrice.placeholder = typeToPrice[inputType.value];
+    inputPrice.min = typeToPrice[inputType.value];
+  };
+
+  var inputTimeIn = document.querySelector('#timein');
+  var inputTimeOut = document.querySelector('#timeout');
+
+  var onСhangeTimeIn = function () {
+    inputTimeOut.value = inputTimeIn.value;
+
+  };
+  var onСhangeTimeOut = function () {
+    inputTimeIn.value = inputTimeOut.value;
   };
   // функция удаления класса;
   var removeClass = function (whereToDelete, deleteClass) {
@@ -30,28 +36,6 @@
   var removeClasses = function (array, deleteClass) {
     for (var i = 0; i < array.length; i++) {
       removeClass(array[i], deleteClass);
-    }
-  };
-
-  var inputTimeIn = document.querySelector('#timein');
-  var inputTimeOut = document.querySelector('#timeout');
-
-  var onСhangeTimeIn = function () {
-    if (inputTimeIn.value === '12:00') {
-      inputTimeOut.value = '12:00';
-    } else if (inputTimeIn.value === '13:00') {
-      inputTimeOut.value = '13:00';
-    } else {
-      inputTimeOut.value = '14:00';
-    }
-  };
-  var onСhangeTimeOut = function () {
-    if (inputTimeOut.value === '12:00') {
-      inputTimeIn.value = '12:00';
-    } else if (inputTimeOut.value === '13:00') {
-      inputTimeIn.value = '13:00';
-    } else {
-      inputTimeIn.value = '14:00';
     }
   };
 
