@@ -6,8 +6,8 @@
     LOCATION_MAX_Y: 630,
     WIDTH_MAIN_PIN: 65,
     HEIGTH_MAIN_PIN: 85,
-    inputAdress: document.querySelector('#address'),
-    mapPinMain: document.querySelector('.map__pin--main'),
-    containerPins: document.querySelector('.map__pins')
+    inputAdressElement: document.querySelector('#address'),
+    mapPinMainElement: document.querySelector('.map__pin--main'),
+    containerPinsElement: document.querySelector('.map__pins')
   };
 })();

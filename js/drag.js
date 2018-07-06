@@ -2,12 +2,12 @@
 
 (function () {
   // ------------------------Drag-and-drop -------------------
-  window.variables.mapPinMain.addEventListener('mousedown', window.util.onLoadData);
+  window.variables.mapPinMainElement.addEventListener('mousedown', window.util.onLoadData);
 
-  window.variables.mapPinMain.addEventListener('mousedown', function (downEvt) {
-    var mapPins = document.querySelector('.map__pins');
+  var onDragAndDrop = function (downEvt) {
+    var mapPinElement = document.querySelector('.map__pins');
     downEvt.preventDefault();
-    window.variables.inputAdress.value = window.util.getСoordinatesMainPin();
+    window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
     var startCoords = {
       x: downEvt.pageX,
       y: downEvt.pageY
@@ -24,41 +24,43 @@
         y: moveEvt.pageY
       };
 
-      var widthMapPins = mapPins.offsetWidth;
+      var widthMapPins = mapPinElement.offsetWidth;
       var minDistanceLeftPin = 0;
       var maxDistanceLeftPin = widthMapPins - window.variables.WIDTH_MAIN_PIN;
       var minDistanceTopPin = window.variables.LOCATION_MIN_Y - window.variables.HEIGTH_MAIN_PIN;
       var maxnDistanceTopPin = window.variables.LOCATION_MAX_Y - window.variables.HEIGTH_MAIN_PIN;
-      var top = window.variables.mapPinMain.offsetTop - shift.y;
-      var left = window.variables.mapPinMain.offsetLeft - shift.x;
+      var top = window.variables.mapPinMainElement.offsetTop - shift.y;
+      var left = window.variables.mapPinMainElement.offsetLeft - shift.x;
       if (top <= (minDistanceTopPin)) {
-        window.variables.mapPinMain.style.top = minDistanceTopPin + 'px';
-        window.variables.mapPinMain.style.left = left + 'px';
+        window.variables.mapPinMainElement.style.top = minDistanceTopPin + 'px';
+        window.variables.mapPinMainElement.style.left = left + 'px';
       } else if (top >= maxnDistanceTopPin) {
-        window.variables.mapPinMain.style.top = maxnDistanceTopPin + 'px';
-        window.variables.mapPinMain.style.left = left + 'px';
+        window.variables.mapPinMainElement.style.top = maxnDistanceTopPin + 'px';
+        window.variables.mapPinMainElement.style.left = left + 'px';
         startCoords.y = maxnDistanceTopPin;
       } else {
-        window.variables.mapPinMain.style.top = top + 'px';
-        window.variables.mapPinMain.style.left = left + 'px';
+        window.variables.mapPinMainElement.style.top = top + 'px';
+        window.variables.mapPinMainElement.style.left = left + 'px';
       }
       if (left < minDistanceLeftPin) {
-        window.variables.mapPinMain.style.left = minDistanceLeftPin + 'px';
+        window.variables.mapPinMainElement.style.left = minDistanceLeftPin + 'px';
       } else if (left > maxDistanceLeftPin) {
-        window.variables.mapPinMain.style.left = maxDistanceLeftPin + 'px';
+        window.variables.mapPinMainElement.style.left = maxDistanceLeftPin + 'px';
       } else {
-        window.variables.mapPinMain.style.left = left + 'px';
+        window.variables.mapPinMainElement.style.left = left + 'px';
       }
-      window.variables.inputAdress.value = window.util.getСoordinatesMainPin();
+      window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      mapPins.removeEventListener('mousemove', onMouseMove);
-      mapPins.removeEventListener('mouseup', onMouseUp);
+      mapPinElement.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     };
 
-    mapPins.addEventListener('mousemove', onMouseMove);
+    mapPinElement.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  });
+  };
+
+  window.variables.mapPinMainElement.addEventListener('mousedown', onDragAndDrop);
 })();

@@ -1,8 +1,8 @@
 'use strict';
 (function () {
-  var similarOfferTemplate = document.querySelector('template').content.querySelector('.map__card');
-  var listFeature = document.querySelector('template').content.querySelector('.popup__feature');
-  var photoFeature = document.querySelector('template').content.querySelector('.popup__photo');
+  var similarOfferTemplateElement = document.querySelector('template').content.querySelector('.map__card');
+  var listFeatureElement = document.querySelector('template').content.querySelector('.popup__feature');
+  var photoFeatureElement = document.querySelector('template').content.querySelector('.popup__photo');
 
   // Функция возвращает перевод типа жилья.
   var translateType = function (typeEn) {
@@ -18,14 +18,14 @@
   };
   // Возвращает элемент списка удобств.
   var getFeatureElement = function (feature) {
-    var featureElement = listFeature.cloneNode();
+    var featureElement = listFeatureElement.cloneNode();
     featureElement.classList.remove('popup__feature--wifi');
     featureElement.classList.add('popup__feature--' + feature);
     return featureElement;
   };
   // Возвращает элемент списка фото.
   var getPhotoElement = function (link) {
-    var photoElement = photoFeature.cloneNode();
+    var photoElement = photoFeatureElement.cloneNode();
     photoElement.src = link;
     return photoElement;
   };
@@ -53,7 +53,7 @@
   };
   // Функция возвращает элемент объявления
   window.getOfferElement = function (offer) {
-    var offerElement = similarOfferTemplate.cloneNode(true);
+    var offerElement = similarOfferTemplateElement.cloneNode(true);
     offerElement.querySelector('.popup__title').textContent = offer.offer.title;
     offerElement.querySelector('.popup__text--address').textContent = offer.offer.address;
     offerElement.querySelector('.popup__text--price').textContent = offer.offer.price + '₽/ночь';

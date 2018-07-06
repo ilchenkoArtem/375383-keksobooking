@@ -1,31 +1,31 @@
 'use strict';
 
 (function () {
-  var ENTER_KEY_KODE = 13;
-  var inputPrice = document.querySelector('#price');
-  var inputType = document.querySelector('#type');
+  var ENTER_KEY_CODE = 13;
+  var inputPriceElement = document.querySelector('#price');
+  var inputTypeElement = document.querySelector('#type');
 
   // функция меняющая минимальное значение поля "Цена"
-  var onEditingTheMinPrice = function () {
+  var onInputTypeElementInput = function () {
     var typeToPrice = {
       'flat': 1000,
       'house': 5000,
       'palace': 10000,
       'bungalo': 0
     };
-    inputPrice.placeholder = typeToPrice[inputType.value];
-    inputPrice.min = typeToPrice[inputType.value];
+    inputPriceElement.placeholder = typeToPrice[inputTypeElement.value];
+    inputPriceElement.min = typeToPrice[inputTypeElement.value];
   };
 
-  var inputTimeIn = document.querySelector('#timein');
-  var inputTimeOut = document.querySelector('#timeout');
+  var inputTimeInElement = document.querySelector('#timein');
+  var inputTimeOutElement = document.querySelector('#timeout');
 
-  var onСhangeTimeIn = function () {
-    inputTimeOut.value = inputTimeIn.value;
+  var onInputTimeElementInput = function () {
+    inputTimeOutElement.value = inputTimeInElement.value;
 
   };
-  var onСhangeTimeOut = function () {
-    inputTimeIn.value = inputTimeOut.value;
+  var onInputTimeOutElementInput = function () {
+    inputTimeInElement.value = inputTimeOutElement.value;
   };
   // функция удаления класса;
   var removeClass = function (whereToDelete, deleteClass) {
@@ -40,53 +40,53 @@
     }
   };
 
-  var inputRoomNumber = document.querySelector('#room_number');
-  var inputCapacity = document.querySelector('#capacity');
-  var optionsCapacity = inputCapacity.querySelectorAll('option');
+  var inputRoomNumberElement = document.querySelector('#room_number');
+  var inputCapacityElement = document.querySelector('#capacity');
+  var optionsCapacityElements = inputCapacityElement.querySelectorAll('option');
   // функция добавления атрибута disabled
   var disabledNumber = function (number) {
     number.disabled = 'disabled';
   };
   // функция управления настройками поля 'Колличество мест'
-  var onСhangeCapacity = function () {
-    for (var i = 0; i < optionsCapacity.length; i++) {
-      optionsCapacity[i].disabled = null;
+  var onInputRoomNumberElementInput = function () {
+    for (var i = 0; i < optionsCapacityElements.length; i++) {
+      optionsCapacityElements[i].disabled = null;
     }
-    if (inputRoomNumber.value === '2') {
-      disabledNumber(optionsCapacity[0]);
-      disabledNumber(optionsCapacity[3]);
-      if (inputCapacity.value === '3' || inputCapacity.value === '0') {
-        inputCapacity.value = '2';
+    if (inputRoomNumberElement.value === '2') {
+      disabledNumber(optionsCapacityElements[0]);
+      disabledNumber(optionsCapacityElements[3]);
+      if (inputCapacityElement.value === '3' || inputCapacityElement.value === '0') {
+        inputCapacityElement.value = '2';
       }
-    } else if (inputRoomNumber.value === '1') {
-      disabledNumber(optionsCapacity[0]);
-      disabledNumber(optionsCapacity[1]);
-      disabledNumber(optionsCapacity[3]);
-      if (inputCapacity.value !== '1') {
-        inputCapacity.value = '1';
+    } else if (inputRoomNumberElement.value === '1') {
+      disabledNumber(optionsCapacityElements[0]);
+      disabledNumber(optionsCapacityElements[1]);
+      disabledNumber(optionsCapacityElements[3]);
+      if (inputCapacityElement.value !== '1') {
+        inputCapacityElement.value = '1';
       }
-    } else if (inputRoomNumber.value === '3') {
-      disabledNumber(optionsCapacity[3]);
-      optionsCapacity[3].disabled = 'disabled';
-      if (inputCapacity.value === '0') {
-        inputCapacity.value = '3';
+    } else if (inputRoomNumberElement.value === '3') {
+      disabledNumber(optionsCapacityElements[3]);
+      optionsCapacityElements[3].disabled = 'disabled';
+      if (inputCapacityElement.value === '0') {
+        inputCapacityElement.value = '3';
       }
     } else {
-      disabledNumber(optionsCapacity[0]);
-      disabledNumber(optionsCapacity[1]);
-      disabledNumber(optionsCapacity[2]);
-      if (inputCapacity.value !== '0') {
-        inputCapacity.value = '0';
+      disabledNumber(optionsCapacityElements[0]);
+      disabledNumber(optionsCapacityElements[1]);
+      disabledNumber(optionsCapacityElements[2]);
+      if (inputCapacityElement.value !== '0') {
+        inputCapacityElement.value = '0';
       }
     }
   };
 
-  var buttonForm = document.querySelector('.ad-form__submit');
-  var inputTitle = document.querySelector('#title');
-  var formInputsvalid = [inputPrice, inputTitle];
+  var buttonFormElement = document.querySelector('.ad-form__submit');
+  var inputTitleElement = document.querySelector('#title');
+  var formInputsvalid = [inputPriceElement, inputTitleElement];
 
   // функция определение валидности полей
-  var validityForm = function () {
+  var onValidityForm = function () {
     for (var i = 0; i < formInputsvalid.length; i++) {
       var validity = formInputsvalid[i].validity.valid;
       if (!validity) {
@@ -96,79 +96,79 @@
       }
     }
   };
-  var formNewAd = document.querySelector('.ad-form');
+  var formNewAdElement = document.querySelector('.ad-form');
 
   var resetForm = function () {
-    onEditingTheMinPrice();
-    inputCapacity.value = '1';
-    disabledNumber(optionsCapacity[0]);
-    disabledNumber(optionsCapacity[1]);
-    disabledNumber(optionsCapacity[3]);
-    window.variables.mapPinMain.style = 'left: 570px; top: 375px';
+    onInputTypeElementInput();
+    inputCapacityElement.value = '1';
+    disabledNumber(optionsCapacityElements[0]);
+    disabledNumber(optionsCapacityElements[1]);
+    disabledNumber(optionsCapacityElements[3]);
+    window.variables.mapPinMainElement.style = 'left: 570px; top: 375px';
     removeClasses(formInputsvalid, 'error');
   };
 
   var onSubmitReset = function () {
-    formNewAd.removeEventListener('reset', onResetAndDisableForm);
-    formNewAd.reset();
+    formNewAdElement.removeEventListener('reset', onResetAndDisableForm);
+    formNewAdElement.reset();
     resetForm();
-    window.variables.inputAdress.value = window.util.getСoordinatesMainPin();
-    formNewAd.addEventListener('reset', onResetAndDisableForm);
+    window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
+    formNewAdElement.addEventListener('reset', onResetAndDisableForm);
   };
   // функция возвращения полей в первоначальное состояние
   var onResetAndDisableForm = function () {
     setTimeout(function () {
       resetForm();
-      window.variables.inputAdress.value = null;
+      window.variables.inputAdressElement.value = null;
       window.disabledMap();
     }, 0);
   };
 
-  var onInputPriceRemoveClassError = function () {
-    removeClass(inputPrice, 'error');
+  var onInputTitleElementInput = function () {
+    removeClass(inputPriceElement, 'error');
   };
 
-  var onInputTitleRemoveClassError = function () {
-    removeClass(inputTitle, 'error');
+  var oninputTitleElementInput = function () {
+    removeClass(inputTitleElement, 'error');
   };
 
   var onValidityForKeydownEnter = function (evt) {
-    if (evt.keyCode === ENTER_KEY_KODE) {
-      validityForm();
+    if (evt.keyCode === ENTER_KEY_CODE) {
+      onValidityForm();
     }
   };
 
   var onSubmitForm = function (evt) {
-    window.backend.save(onSubmitReset, window.util.onError, new FormData(formNewAd));
+    window.backend.save(onSubmitReset, window.util.onError, new FormData(formNewAdElement));
     evt.preventDefault();
   };
 
   window.form = {
     addHandler: function () {
-      inputType.addEventListener('input', onEditingTheMinPrice);
-      inputTimeIn.addEventListener('input', onСhangeTimeIn);
-      inputTimeOut.addEventListener('input', onСhangeTimeOut);
-      inputRoomNumber.addEventListener('input', onСhangeCapacity);
-      inputPrice.addEventListener('input', onInputPriceRemoveClassError);
-      inputTitle.addEventListener('input', onInputTitleRemoveClassError);
-      buttonForm.addEventListener('click', validityForm);
-      buttonForm.addEventListener('keydown', onValidityForKeydownEnter);
-      formNewAd.addEventListener('keydown', onValidityForKeydownEnter);
-      formNewAd.addEventListener('reset', onResetAndDisableForm);
-      formNewAd.addEventListener('submit', onSubmitForm);
+      inputTypeElement.addEventListener('input', onInputTypeElementInput);
+      inputTimeInElement.addEventListener('input', onInputTimeElementInput);
+      inputTimeOutElement.addEventListener('input', onInputTimeOutElementInput);
+      inputRoomNumberElement.addEventListener('input', onInputRoomNumberElementInput);
+      inputPriceElement.addEventListener('input', onInputTitleElementInput);
+      inputTitleElement.addEventListener('input', oninputTitleElementInput);
+      buttonFormElement.addEventListener('click', onValidityForm);
+      buttonFormElement.addEventListener('keydown', onValidityForKeydownEnter);
+      formNewAdElement.addEventListener('keydown', onValidityForKeydownEnter);
+      formNewAdElement.addEventListener('reset', onResetAndDisableForm);
+      formNewAdElement.addEventListener('submit', onSubmitForm);
     },
     removeHandler: function () {
-      inputType.removeEventListener('input', onEditingTheMinPrice);
-      inputTimeIn.removeEventListener('input', onСhangeTimeIn);
-      inputTimeOut.removeEventListener('input', onСhangeTimeOut);
-      inputRoomNumber.removeEventListener('input', onСhangeCapacity);
-      inputPrice.removeEventListener('input', onInputPriceRemoveClassError);
-      inputTitle.removeEventListener('input', onInputTitleRemoveClassError);
-      buttonForm.removeEventListener('click', validityForm);
-      buttonForm.removeEventListener('keydown', onValidityForKeydownEnter);
-      formNewAd.removeEventListener('keydown', onValidityForKeydownEnter);
-      formNewAd.removeEventListener('reset', onResetAndDisableForm);
-      formNewAd.removeEventListener('submit', onSubmitForm);
+      inputTypeElement.removeEventListener('input', onInputTypeElementInput);
+      inputTimeInElement.removeEventListener('input', onInputTimeElementInput);
+      inputTimeOutElement.removeEventListener('input', onInputTimeOutElementInput);
+      inputRoomNumberElement.removeEventListener('input', onInputRoomNumberElementInput);
+      inputPriceElement.removeEventListener('input', onInputTitleElementInput);
+      inputTitleElement.removeEventListener('input', oninputTitleElementInput);
+      buttonFormElement.removeEventListener('click', onValidityForm);
+      buttonFormElement.removeEventListener('keydown', onValidityForKeydownEnter);
+      formNewAdElement.removeEventListener('keydown', onValidityForKeydownEnter);
+      formNewAdElement.removeEventListener('reset', onResetAndDisableForm);
+      formNewAdElement.removeEventListener('submit', onSubmitForm);
     }
   };
 })();
