@@ -5,6 +5,7 @@
   window.variables.mapPinMainElement.addEventListener('mousedown', window.util.onMapPinMainElementMouseDown);
 
   var onMapPinMainElementMouseDown = function (downEvt) {
+    window.util.deleteMapCard();
     var mapPinElement = document.querySelector('.map__pins');
     downEvt.preventDefault();
     window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();

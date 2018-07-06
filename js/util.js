@@ -35,6 +35,7 @@
       var mapCardElement = document.querySelector('.map__card');
       if (mapCardElement) {
         mapCardElement.remove();
+        window.controlMapCard.removeHandlerCard();
       }
 
     },

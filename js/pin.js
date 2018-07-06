@@ -12,7 +12,7 @@
     pinElement.querySelector('img').src = offer.author.avatar;
     pinElement.querySelector('img').alt = offer.offer.title;
     pinElement.addEventListener('click', function () {
-      window.controlMapCard(offer);
+      window.controlMapCard.controlCard(offer);
     });
     return pinElement;
   };
