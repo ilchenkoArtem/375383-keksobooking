@@ -6,7 +6,7 @@
     getСoordinatesMainPin: function () {
       return Math.round(window.variables.mapPinMainElement.offsetLeft + window.variables.WIDTH_MAIN_PIN / 2) + ', ' + Math.floor(window.variables.mapPinMainElement.offsetTop + window.variables.HEIGTH_MAIN_PIN);
     },
-    onError: function (error) {
+    deduceErrorText: function (error) {
       var formErrorElement = document.querySelector('.error-popup');
       var errorPoppupElement = document.querySelector('.error-popup__error');
       errorPoppupElement.textContent = error;
@@ -36,11 +36,12 @@
       if (mapCardElement) {
         mapCardElement.remove();
       }
+
     },
-    onLoadData: function (evt) {
+    onMapPinMainElementMouseDown: function (evt) {
       evt.preventDefault();
       window.backend.load(window.filter.onSuccess, window.util.onError);
-      window.variables.mapPinMainElement.removeEventListener('mousedown', window.util.onLoadData);
+      window.variables.mapPinMainElement.removeEventListener('mousedown', window.util.onMapPinMainElementMouseDown);
     }
   };
 })();

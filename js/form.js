@@ -86,7 +86,7 @@
   var formInputsValid = [priceElement, titleElement];
 
   // функция определение валидности полей
-  var onValidityForm = function () {
+  var validityForm = function () {
     for (var i = 0; i < formInputsValid.length; i++) {
       var validity = formInputsValid[i].validity.valid;
       if (!validity) {
@@ -109,14 +109,14 @@
   };
 
   var onSubmitReset = function () {
-    formNewAdElement.removeEventListener('reset', onResetAndDisableForm);
+    formNewAdElement.removeEventListener('reset', onFormNewAdElementReset);
     formNewAdElement.reset();
     resetForm();
     window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
-    formNewAdElement.addEventListener('reset', onResetAndDisableForm);
+    formNewAdElement.addEventListener('reset', onFormNewAdElementReset);
   };
   // функция возвращения полей в первоначальное состояние
-  var onResetAndDisableForm = function () {
+  var onFormNewAdElementReset = function () {
     setTimeout(function () {
       resetForm();
       window.variables.inputAdressElement.value = null;
@@ -132,14 +132,24 @@
     removeClass(titleElement, 'error');
   };
 
-  var onValidityForKeydownEnter = function (evt) {
+  var onButtonFormElementKeydown = function (evt) {
     if (evt.keyCode === ENTER_KEY_CODE) {
-      onValidityForm();
+      validityForm();
     }
   };
 
-  var onFormSubmit = function (evt) {
-    window.backend.save(onSubmitReset, window.util.onError, new FormData(formNewAdElement));
+  var onFormNewAdElementKeydown = function (evt) {
+    if (evt.keyCode === ENTER_KEY_CODE) {
+      validityForm();
+    }
+  };
+
+  var onButtonFormElementClick = function () {
+    validityForm();
+  };
+
+  var onFormNewAdElementSubmit = function (evt) {
+    window.backend.save(onSubmitReset, window.util.deduceErrorText, new FormData(formNewAdElement));
     evt.preventDefault();
   };
 
@@ -151,11 +161,11 @@
       roomNumberElement.addEventListener('input', onRoomNumberElementInput);
       priceElement.addEventListener('input', onPriceElementInput);
       titleElement.addEventListener('input', onTitleElementInput);
-      buttonFormElement.addEventListener('click', onValidityForm);
-      buttonFormElement.addEventListener('keydown', onValidityForKeydownEnter);
-      formNewAdElement.addEventListener('keydown', onValidityForKeydownEnter);
-      formNewAdElement.addEventListener('reset', onResetAndDisableForm);
-      formNewAdElement.addEventListener('submit', onFormSubmit);
+      buttonFormElement.addEventListener('click', onButtonFormElementClick);
+      buttonFormElement.addEventListener('keydown', onButtonFormElementKeydown);
+      formNewAdElement.addEventListener('keydown', onFormNewAdElementKeydown);
+      formNewAdElement.addEventListener('reset', onFormNewAdElementReset);
+      formNewAdElement.addEventListener('submit', onFormNewAdElementSubmit);
     },
     removeHandler: function () {
       typeElement.removeEventListener('input', onTypeElementInput);
@@ -164,11 +174,11 @@
       roomNumberElement.removeEventListener('input', onRoomNumberElementInput);
       priceElement.removeEventListener('input', onPriceElementInput);
       titleElement.removeEventListener('input', onTitleElementInput);
-      buttonFormElement.removeEventListener('click', onValidityForm);
-      buttonFormElement.removeEventListener('keydown', onValidityForKeydownEnter);
-      formNewAdElement.removeEventListener('keydown', onValidityForKeydownEnter);
-      formNewAdElement.removeEventListener('reset', onResetAndDisableForm);
-      formNewAdElement.removeEventListener('submit', onFormSubmit);
+      buttonFormElement.removeEventListener('click', onButtonFormElementClick);
+      buttonFormElement.removeEventListener('keydown', onButtonFormElementKeydown);
+      formNewAdElement.removeEventListener('keydown', onFormNewAdElementKeydown);
+      formNewAdElement.removeEventListener('reset', onFormNewAdElementReset);
+      formNewAdElement.removeEventListener('submit', onFormNewAdElementSubmit);
     }
   };
 })();

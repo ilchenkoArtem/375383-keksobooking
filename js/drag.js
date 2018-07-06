@@ -2,9 +2,9 @@
 
 (function () {
   // ------------------------Drag-and-drop -------------------
-  window.variables.mapPinMainElement.addEventListener('mousedown', window.util.onLoadData);
+  window.variables.mapPinMainElement.addEventListener('mousedown', window.util.onMapPinMainElementMouseDown);
 
-  var onDragAndDrop = function (downEvt) {
+  var onMapPinMainElementMouseDown = function (downEvt) {
     var mapPinElement = document.querySelector('.map__pins');
     downEvt.preventDefault();
     window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
@@ -13,7 +13,7 @@
       y: downEvt.pageY
     };
 
-    var onMouseMove = function (moveEvt) {
+    var onMouseMoveMapPinElement = function (moveEvt) {
       moveEvt.preventDefault();
       var shift = {
         x: startCoords.x - moveEvt.pageX,
@@ -54,13 +54,13 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      mapPinElement.removeEventListener('mousemove', onMouseMove);
+      mapPinElement.removeEventListener('mousemove', onMouseMoveMapPinElement);
       document.removeEventListener('mouseup', onMouseUp);
     };
 
-    mapPinElement.addEventListener('mousemove', onMouseMove);
+    mapPinElement.addEventListener('mousemove', onMouseMoveMapPinElement);
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  window.variables.mapPinMainElement.addEventListener('mousedown', onDragAndDrop);
+  window.variables.mapPinMainElement.addEventListener('mousedown', onMapPinMainElementMouseDown);
 })();
