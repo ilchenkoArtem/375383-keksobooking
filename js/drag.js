@@ -8,7 +8,7 @@
     window.util.deleteMapCard();
     var mapPinElement = document.querySelector('.map__pins');
     downEvt.preventDefault();
-    window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
+    window.variables.inputAddressElement.value = window.util.getСoordinatesMainPin();
     var startCoords = {
       x: downEvt.pageX,
       y: downEvt.pageY
@@ -50,7 +50,7 @@
       } else {
         window.variables.mapPinMainElement.style.left = left + 'px';
       }
-      window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
+      window.variables.inputAddressElement.value = window.util.getСoordinatesMainPin();
     };
 
     var onMouseUp = function (upEvt) {

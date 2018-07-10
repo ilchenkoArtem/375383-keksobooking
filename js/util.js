@@ -45,7 +45,7 @@
       window.variables.mapPinMainElement.removeEventListener('mousedown', window.util.onMapPinMainElementMouseDown);
     },
 
-    deletLoadFoto: function () {
+    deleteLoadPhoto: function () {
       document.querySelectorAll('.ad-form__photo--load').forEach(function (it) {
         it.remove();
       });

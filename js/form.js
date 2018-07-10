@@ -113,15 +113,15 @@
     formNewAdElement.removeEventListener('reset', onFormNewAdElementReset);
     formNewAdElement.reset();
     resetForm();
-    window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
+    window.variables.inputAddressElement.value = window.util.getСoordinatesMainPin();
     formNewAdElement.addEventListener('reset', onFormNewAdElementReset);
-    window.util.deletLoadFoto();
+    window.util.deleteLoadPhoto();
   };
   // функция возвращения полей в первоначальное состояние
   var onFormNewAdElementReset = function () {
     setTimeout(function () {
       resetForm();
-      window.variables.inputAdressElement.value = null;
+      window.variables.inputAddressElement.value = null;
       window.disabledMap();
     }, 0);
   };
@@ -158,25 +158,26 @@
   var avatarChooseElement = formNewAdElement.querySelector('#avatar');
 
 
-  var onAddLoadHousingFoto = function () {
+  var onAddLoadHousingPhoto = function () {
     window.variables.avatarPreviewHiddenElement.style = 'visibility: hidden';
     var divElement = document.createElement('div');
     divElement.classList.add('ad-form__photo');
     divElement.classList.add('ad-form__photo--load');
-    var img = document.createElement('img');
-    divElement.appendChild(img);
-    img.src = window.variables.reader.result;
-    img.width = 70;
-    img.height = 70;
+    var imgElement = document.createElement('img');
+    divElement.appendChild(imgElement);
+    imgElement.src = window.variables.reader.result;
+    imgElement.width = 70;
+    imgElement.height = 70;
     window.variables.avatarHousingPreviewElement.insertBefore(divElement, window.variables.avatarHousingPreviewElement.children[1]);
-    window.variables.reader.removeEventListener('load', onAddLoadHousingFoto);
+    window.variables.reader.removeEventListener('load', onAddLoadHousingPhoto);
   };
 
-  var onAddLoadAvatarFoto = function () {
+  var onAddLoadAvatarPhoto = function () {
     window.variables.avatarPreviewElement.src = window.variables.reader.result;
-    window.variables.reader.removeEventListener('load', onAddLoadAvatarFoto);
+    window.variables.reader.removeEventListener('load', onAddLoadAvatarPhoto);
   };
-  var onAddLoadFoto = function (element, functionAdd) {
+
+  var onAddLoadPhoto = function (element, functionAdd) {
     var file = element.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -191,11 +192,11 @@
   };
 
   var onHousingAvatarElementChange = function () {
-    onAddLoadFoto(housingAvatarElement, onAddLoadHousingFoto);
+    onAddLoadPhoto(housingAvatarElement, onAddLoadHousingPhoto);
   };
 
   var onAvatarChooseElementChange = function () {
-    onAddLoadFoto(avatarChooseElement, onAddLoadAvatarFoto);
+    onAddLoadPhoto(avatarChooseElement, onAddLoadAvatarPhoto);
   };
 
   window.form = {

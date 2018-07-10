@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
+  window.variables.inputAddressElement.value = window.util.getСoordinatesMainPin();
   window.onActiveMap = function () {
     window.util.changeFormState(null);
     document.querySelector('.map').classList.remove('map--faded');
