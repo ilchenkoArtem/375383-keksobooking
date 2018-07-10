@@ -7,8 +7,12 @@
     WIDTH_MAIN_PIN: 65,
     HEIGTH_MAIN_PIN: 85,
     popupCloseButton: '',
+    reader: null,
     inputAdressElement: document.querySelector('#address'),
     mapPinMainElement: document.querySelector('.map__pin--main'),
-    containerPinsElement: document.querySelector('.map__pins')
+    containerPinsElement: document.querySelector('.map__pins'),
+    avatarHousingPreviewElement: document.querySelector('.ad-form__photo-container'),
+    avatarPreviewHiddenElement: document.querySelector('.ad-form__photo--hidden'),
+    avatarPreviewElement: document.querySelector('.ad-form-header__preview img')
   };
 })();

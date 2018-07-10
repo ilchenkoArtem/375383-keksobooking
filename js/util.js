@@ -6,7 +6,7 @@
     getСoordinatesMainPin: function () {
       return Math.round(window.variables.mapPinMainElement.offsetLeft + window.variables.WIDTH_MAIN_PIN / 2) + ', ' + Math.floor(window.variables.mapPinMainElement.offsetTop + window.variables.HEIGTH_MAIN_PIN);
     },
-    deduceErrorText: function (error) {
+    onDeduceErrorText: function (error) {
       var formErrorElement = document.querySelector('.error-popup');
       var errorPoppupElement = document.querySelector('.error-popup__error');
       errorPoppupElement.textContent = error;
@@ -41,8 +41,16 @@
     },
     onMapPinMainElementMouseDown: function (evt) {
       evt.preventDefault();
-      window.backend.load(window.filter.onSuccess, window.util.onError);
+      window.backend.load(window.filter.onSuccess, window.util.onDeduceErrorText);
       window.variables.mapPinMainElement.removeEventListener('mousedown', window.util.onMapPinMainElementMouseDown);
+    },
+
+    deletLoadFoto: function () {
+      document.querySelectorAll('.ad-form__photo--load').forEach(function (it) {
+        it.remove();
+      });
+      window.variables.avatarPreviewHiddenElement.style = '';
+      window.variables.avatarPreviewElement.src = 'img/muffin-grey.svg';
     }
   };
 })();

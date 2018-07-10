@@ -80,10 +80,10 @@
       window.onActiveMap();
       window.util.render(offers);
     },
-    resetFilter: function () {
+    reset: function () {
       mapPinsElement.reset();
     },
-    addChangeFilterHandler: function () {
+    addChangeHandler: function () {
       mapPinsElement.addEventListener('change', onReadPin);
     }
   };

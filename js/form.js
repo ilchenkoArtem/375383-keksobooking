@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var ENTER_KEY_CODE = 13;
   var priceElement = document.querySelector('#price');
   var typeElement = document.querySelector('#type');
@@ -114,6 +115,7 @@
     resetForm();
     window.variables.inputAdressElement.value = window.util.getСoordinatesMainPin();
     formNewAdElement.addEventListener('reset', onFormNewAdElementReset);
+    window.util.deletLoadFoto();
   };
   // функция возвращения полей в первоначальное состояние
   var onFormNewAdElementReset = function () {
@@ -149,8 +151,51 @@
   };
 
   var onFormNewAdElementSubmit = function (evt) {
-    window.backend.save(onSubmitReset, window.util.deduceErrorText, new FormData(formNewAdElement));
+    window.backend.save(onSubmitReset, window.util.onDeduceErrorText, new FormData(formNewAdElement));
     evt.preventDefault();
+  };
+  var housingAvatarElement = formNewAdElement.querySelector('#images');
+  var avatarChooseElement = formNewAdElement.querySelector('#avatar');
+
+
+  var onAddLoadHousingFoto = function () {
+    window.variables.avatarPreviewHiddenElement.style = 'visibility: hidden';
+    var divElement = document.createElement('div');
+    divElement.classList.add('ad-form__photo');
+    divElement.classList.add('ad-form__photo--load');
+    var img = document.createElement('img');
+    divElement.appendChild(img);
+    img.src = window.variables.reader.result;
+    img.width = 70;
+    img.height = 70;
+    window.variables.avatarHousingPreviewElement.insertBefore(divElement, window.variables.avatarHousingPreviewElement.children[1]);
+    window.variables.reader.removeEventListener('load', onAddLoadHousingFoto);
+  };
+
+  var onAddLoadAvatarFoto = function () {
+    window.variables.avatarPreviewElement.src = window.variables.reader.result;
+    window.variables.reader.removeEventListener('load', onAddLoadAvatarFoto);
+  };
+  var onAddLoadFoto = function (element, functionAdd) {
+    var file = element.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var correctTypeFile = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+    if (correctTypeFile) {
+      window.variables.reader = new FileReader();
+      window.variables.reader.addEventListener('load', functionAdd);
+      window.variables.reader.readAsDataURL(file);
+    }
+  };
+
+  var onHousingAvatarElementChange = function () {
+    onAddLoadFoto(housingAvatarElement, onAddLoadHousingFoto);
+  };
+
+  var onAvatarChooseElementChange = function () {
+    onAddLoadFoto(avatarChooseElement, onAddLoadAvatarFoto);
   };
 
   window.form = {
@@ -166,6 +211,8 @@
       formNewAdElement.addEventListener('keydown', onFormNewAdElementKeydown);
       formNewAdElement.addEventListener('reset', onFormNewAdElementReset);
       formNewAdElement.addEventListener('submit', onFormNewAdElementSubmit);
+      housingAvatarElement.addEventListener('change', onHousingAvatarElementChange);
+      avatarChooseElement.addEventListener('change', onAvatarChooseElementChange);
     },
     removeHandler: function () {
       typeElement.removeEventListener('input', onTypeElementInput);
@@ -179,6 +226,8 @@
       formNewAdElement.removeEventListener('keydown', onFormNewAdElementKeydown);
       formNewAdElement.removeEventListener('reset', onFormNewAdElementReset);
       formNewAdElement.removeEventListener('submit', onFormNewAdElementSubmit);
+      housingAvatarElement.removeEventListener('change', onHousingAvatarElementChange);
+      avatarChooseElement.removeEventListener('change', onAvatarChooseElementChange);
     }
   };
 })();
