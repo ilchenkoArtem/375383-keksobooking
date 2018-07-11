@@ -108,14 +108,35 @@
     window.variables.mapPinMainElement.style = 'left: 570px; top: 375px';
     removeClasses(formInputsValid, 'error');
   };
+  var successElement = document.querySelector('.success');
+
+  var hideSuccessElement = function () {
+    successElement.classList.add('hidden');
+    successElement.removeEventListener('click', onSuccessElementClick);
+    window.removeEventListener('keydown', onSuccessElementKeyDown);
+  };
+
+  var onSuccessElementClick = function () {
+    hideSuccessElement();
+  };
+
+  var onSuccessElementKeyDown = function (evt) {
+    if (evt.keyCode === window.variables.ESC_KEY_CODE) {
+      hideSuccessElement();
+    }
+  };
 
   var onSubmitReset = function () {
+    successElement.classList.remove('hidden');
+    successElement.addEventListener('click', onSuccessElementClick);
+    window.addEventListener('keydown', onSuccessElementKeyDown);
     formNewAdElement.removeEventListener('reset', onFormNewAdElementReset);
     formNewAdElement.reset();
     resetForm();
     window.variables.inputAddressElement.value = window.util.getСoordinatesMainPin();
     formNewAdElement.addEventListener('reset', onFormNewAdElementReset);
     window.util.deleteLoadPhoto();
+
   };
   // функция возвращения полей в первоначальное состояние
   var onFormNewAdElementReset = function () {

@@ -2,6 +2,7 @@
 
 (function () {
   window.variables = {
+    ESC_KEY_CODE: 27,
     LOCATION_MIN_Y: 130,
     LOCATION_MAX_Y: 630,
     WIDTH_MAIN_PIN: 65,

@@ -1,11 +1,10 @@
 'use strict';
 
 (function () {
-  var ESC_KEY_CODE = 27;
   var popupCloseButtonElement;
   var mapElement = document.querySelector('.map');
   var onDocumentKeydown = function (evt) {
-    if (evt.keyCode === ESC_KEY_CODE) {
+    if (evt.keyCode === window.variables.ESC_KEY_CODE) {
       window.util.deleteMapCard();
     }
   };
