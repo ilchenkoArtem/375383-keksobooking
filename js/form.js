@@ -99,15 +99,6 @@
   };
   var formNewAdElement = document.querySelector('.ad-form');
 
-  var resetForm = function () {
-    onTypeElementInput();
-    capacityElement.value = '1';
-    disabledNumber(optionsCapacityElements[0]);
-    disabledNumber(optionsCapacityElements[1]);
-    disabledNumber(optionsCapacityElements[3]);
-    window.variables.mapPinMainElement.style = 'left: 570px; top: 375px';
-    removeClasses(formInputsValid, 'error');
-  };
   var successElement = document.querySelector('.success');
 
   var hideSuccessElement = function () {
@@ -130,19 +121,12 @@
     successElement.classList.remove('hidden');
     successElement.addEventListener('click', onSuccessElementClick);
     window.addEventListener('keydown', onSuccessElementKeyDown);
-    formNewAdElement.removeEventListener('reset', onFormNewAdElementReset);
-    formNewAdElement.reset();
-    resetForm();
-    window.variables.inputAddressElement.value = window.util.getСoordinatesMainPin();
-    formNewAdElement.addEventListener('reset', onFormNewAdElementReset);
-    window.util.deleteLoadPhoto();
+    window.disabledMap();
 
   };
   // функция возвращения полей в первоначальное состояние
   var onFormNewAdElementReset = function () {
     setTimeout(function () {
-      resetForm();
-      window.variables.inputAddressElement.value = null;
       window.disabledMap();
     }, 0);
   };
@@ -250,6 +234,17 @@
       formNewAdElement.removeEventListener('submit', onFormNewAdElementSubmit);
       housingAvatarElement.removeEventListener('change', onHousingAvatarElementChange);
       avatarChooseElement.removeEventListener('change', onAvatarChooseElementChange);
+    },
+
+    resetForm: function () {
+      formNewAdElement.reset();
+      onTypeElementInput();
+      capacityElement.value = '1';
+      disabledNumber(optionsCapacityElements[0]);
+      disabledNumber(optionsCapacityElements[1]);
+      disabledNumber(optionsCapacityElements[3]);
+      window.variables.mapPinMainElement.style = 'left: 570px; top: 375px';
+      removeClasses(formInputsValid, 'error');
     }
   };
 })();

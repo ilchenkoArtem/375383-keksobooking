@@ -14,6 +14,7 @@
     containerPinsElement: document.querySelector('.map__pins'),
     avatarHousingPreviewElement: document.querySelector('.ad-form__photo-container'),
     avatarPreviewHiddenElement: document.querySelector('.ad-form__photo--hidden'),
-    avatarPreviewElement: document.querySelector('.ad-form-header__preview img')
+    avatarPreviewElement: document.querySelector('.ad-form-header__preview img'),
+    
   };
 })();
